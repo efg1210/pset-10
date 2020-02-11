@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.*;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -73,8 +73,8 @@ public class Form extends Application {
         primaryStage.show();
     }
     
-    public static void main(String[] args) {
+    
+    public void run(String[] args) {
         launch(args);
     }
-
 }
