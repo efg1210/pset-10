@@ -12,23 +12,14 @@ public class Applications {
 //        form.run(args);
 //        HelloWorld hello = new HelloWorld();
 //        hello.run(args);
-        app();
+        app(args);
     }
     
-    private static void app() {
+    private static void app(String[] args) {
         Word[] words = getWords();
         
-//        System.out.println(words[0].getWord());
-//        for (Definition def : words[0].getDefinitions()) {
-//            System.out.println(def.getDefinition());
-//            System.out.println(def.getPart());
-//        }
-//        for (String synonyms : words[0].getSyn()) {
-//            System.out.println(synonyms);
-//        }
-//        for (String antonyms : words[0].getAnt()) {
-//            System.out.println(antonyms);
-//        }
+        Display display = new Display();
+        display.run(args, words);
     }
     
     private static Word[] sortWords(Word[] words) {
