@@ -23,7 +23,7 @@ public class Applications {
             Word[] word = gson.fromJson(reader, Word[].class);
             
             // print staff 
-            System.out.println(word);
+            //System.out.println(word[0].getWord());
 
         } catch (IOException e) {
             e.printStackTrace();
