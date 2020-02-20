@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -21,62 +22,37 @@ import javafx.stage.Stage;
 
 public class Display extends Application {
 
-    private Word[] words;
+    //private Word[] words;
     
     @Override
     public void start(Stage primaryStage) {
+        Applications app = new Applications();
+        Word[] words = app.getWords();
+        
         primaryStage.setTitle("eDictionary");
         
         GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
+        grid.setAlignment(Pos.TOP_CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
+                
+        for (int i = 0; i < words.length-1; i++) {
+            Text scenetitle = new Text();
+            scenetitle.setText(words[i].getWord());
+            scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            grid.add(scenetitle, 0, i, 2, 1);
+            //System.out.println(words[i].getWord());
+        }
         
-        Text scenetitle = new Text("Welcome");
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle, 0, 0, 2, 1);
-        
-        Label userName = new Label("User Name:");
-        grid.add(userName, 0, 1);
-        
-        TextField userTextField = new TextField();
-        grid.add(userTextField, 1, 1);
-        
-        Label pw = new Label("Password:");
-        grid.add(pw, 0, 2);
-        
-        PasswordField pwBox = new PasswordField();
-        grid.add(pwBox, 1, 2);
-        
-        Button btn = new Button("Sign in");
-        HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 4);
-        
-        final Text actiontarget = new Text();
-        grid.add(actiontarget, 1, 6);
-        
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent e) {
-                actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Sign in button pressed");
-                System.out.println("username " + userTextField.getText());
-            }
-        });
         
         Scene scene = new Scene(grid, 500, 600);
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
+        //primaryStage.setMaximized(true);
         primaryStage.show();
     }
     
-    
-    public void run(String[] args, Word[] words) {
-        this.words = Arrays.copyOf(words, words.length);
+    public static void main(String[] args) { 
         launch(args);
-    }
+  }
 }
