@@ -4,18 +4,19 @@ import java.util.*;
 import com.google.gson.*;
 
 public class Applications {
-    public static void main(String[] args) {
-//        Form form = new Form();
-//        form.run(args);
-//        HelloWorld hello = new HelloWorld();
-//        hello.run(args);
-        
-        HelloWorldSwing hello = new HelloWorldSwing();
-        hello.run();
-        
+//    public static void main(String[] args) {
+////        Form form = new Form();
+////        form.run(args);
+////        HelloWorld hello = new HelloWorld();
+////        hello.run(args);
+//        
+//        
+//        
 //        Applications app = new Applications();
-//        app.app(args);
-    }
+//        HelloWorldSwing hello = new HelloWorldSwing();
+//        hello.run(app.getWords());
+//        //app.app(args);
+//    }
     
     private void app(String[] args) {
         Word[] words = getWords();
