@@ -16,7 +16,11 @@ public class Display extends JFrame {
         
         Toolbar toolbar = new Toolbar(words);
         
-        add(toolbar, BorderLayout.WEST);
+        //add(toolbar, BorderLayout.WEST);
+        
+        JScrollPane scrollPane = new JScrollPane(toolbar);    
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scrollPane, BorderLayout.WEST);
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width/2, screenSize.height);
