@@ -4,12 +4,14 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -40,11 +42,17 @@ public class Display extends Application {
         for (int i = 0; i < words.length-1; i++) {
             Text scenetitle = new Text();
             scenetitle.setText(words[i].getWord());
-            scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 15));
             grid.add(scenetitle, 0, i, 2, 1);
             //System.out.println(words[i].getWord());
         }
         
+        ScrollBar s = new ScrollBar();
+        s.setMin(0);  
+        s.setMax(200);  
+        s.setValue(110);
+        s.setOrientation(Orientation.VERTICAL);
+        grid.add(s, 2, 0);
         
         Scene scene = new Scene(grid, 500, 600);
         primaryStage.setScene(scene);
@@ -52,7 +60,7 @@ public class Display extends Application {
         primaryStage.show();
     }
     
-    public static void main(String[] args) { 
-        launch(args);
-  }
+//    public static void main(String[] args) { 
+//        launch(args);
+//  }
 }
