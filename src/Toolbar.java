@@ -27,19 +27,20 @@ public class Toolbar extends JPanel implements ActionListener {
         gbc.gridy = 0;
         add(addButton, gbc);
         
-        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
-        gbc.gridy = 0;
         add(deleteButton, gbc);
+        
+        JTextField search = new JTextField("Search");
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        add(search, gbc);
         
         for (int i = 0; i < words.length; i++) {
             JButton button = new JButton();
             button.setText(words[i].getWord());
             button.addActionListener(this);
-            gbc.gridx = 0;
-            gbc.gridy = (i + 1);
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-            gbc.gridwidth = 2;
+            gbc.gridy = i + 2;
             add(button, gbc);
         }
     }

@@ -15,9 +15,7 @@ public class Display extends JFrame {
         setLayout(new BorderLayout());
         
         Toolbar toolbar = new Toolbar(words);
-        
-        //add(toolbar, BorderLayout.WEST);
-        
+                
         JScrollPane scrollPane = new JScrollPane(toolbar);    
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         add(scrollPane, BorderLayout.WEST);
