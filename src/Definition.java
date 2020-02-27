@@ -1,7 +1,7 @@
 
 public class Definition {
-    String definition;
-    String partOfSpeech;
+    private String definition;
+    private String partOfSpeech;
     
     public Definition(String definition, String partOfSpeech) {
         this.definition = definition;

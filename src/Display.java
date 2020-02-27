@@ -2,35 +2,40 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Display extends JFrame {
+    private static final long serialVersionUID = 1L;
     
-    private Application app;
+    private Word[] displayWords;
+    private JScrollPane tbScrollPane;
     
-    public Display() {
-        app = new Application();
-        initComponents(app.getWords());
+    public Display(Word[] words) {
+        this.displayWords = words;
+        initComponents();
     }
     
-    private void initComponents(Word[] words) {
+    private void initComponents() {
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        
         setTitle("eDictionary");
         setLayout(new BorderLayout());
         
-        Toolbar toolbar = new Toolbar(words);
-                
-        JScrollPane scrollPane = new JScrollPane(toolbar);    
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        add(scrollPane, BorderLayout.WEST);
+        makeToolbar();
+        makeWindow();
         
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width/2, screenSize.height);
         setExtendedState(JFrame.MAXIMIZED_BOTH); 
         
     }
- 
-    public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Display().setVisible(true);
-            }
-        });
+    
+    private void makeWindow() {
+
+    }
+    
+    private void makeToolbar() {
+        Toolbar toolbar = new Toolbar(displayWords);
+        Word winWord = toolbar.initComponents();
+        tbScrollPane = new JScrollPane(toolbar);
+        tbScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        add(tbScrollPane, BorderLayout.WEST);
     }
 }
