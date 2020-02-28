@@ -42,31 +42,51 @@ public class Toolbar extends JPanel implements ActionListener {
         gbc.gridx = 1;
         add(descButton, gbc);
         
-        return makeWords(gbc);
+        return getWordFromString(makeWords(gbc));
     }
     
-    public Word makeWords(GridBagConstraints gbc) {
+    private Word getWordFromString(String stringWord) {
+        for (Word word: tbWords) {
+            if (word.getWord().equals(stringWord)) {
+                return word;
+            }
+        }
+        return null;
+    }
+    
+    public String makeWords(GridBagConstraints gbc) {
         //JList can sort itself
-        JList jList = new JList(tbWords);
+        JList jList = new JList(parseWords(tbWords));
         gbc.gridy = 3;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
+        
+        Word[] word = new Word[1];
+        word[0] = null;
         
         MouseListener mouseListener = new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 1 || e.getClickCount() == 2) {
                    String selection = (String) jList.getSelectedValue();
-                   for (Word word: tbWords) {
-                       if(word.getWord().equals(selection)) {
-                           return word;
+                   for (Word wordLoop: tbWords) {
+                       if(wordLoop.getWord().equals(selection)) {
+                           System.out.println("hi");
+                           word[0] = wordLoop;
+                           System.out.println("word[0]: " + word[0]);
                        }
                    }
                  }
             }
         };
-        jList.addMouseListener(mouseListener);
+        jList.getSelectedValue();
+        
+        System.out.println("getSelectedValue: " + jList.getSelectedValue());
+        
+        System.out.println(word[0]);
         
         add(jList, gbc);
+        
+        return "hi";
     }
     
     public void actionPerformed(ActionEvent e) {
@@ -84,5 +104,13 @@ public class Toolbar extends JPanel implements ActionListener {
             break;
         default: System.out.println("i don't actually know if this is possible right now");
         }
+    }
+    
+    private String[] parseWords(Word[] words) {
+        String[] onlyWords = new String[words.length];
+        for (int i = 0; i < words.length; i++) {
+            onlyWords[i] = words[i].getWord();
+        }
+        return onlyWords;
     }
 }

@@ -60,13 +60,7 @@ public class Application {
         return words;
     }
     
-    public String[] parseWords() {
-        String[] onlyWords = new String[words.length];
-        for (int i = 0; i < words.length; i++) {
-            onlyWords[i] = words[i].getWord();
-        }
-        return onlyWords;
-    }
+    
 
     private void runDisplay() {
         java.awt.EventQueue.invokeLater(new Runnable() {
