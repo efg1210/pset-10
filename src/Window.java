@@ -53,7 +53,7 @@ public class Window extends JPanel {
         Definition[] defs = winWord.getDefinitions();
         for (int i = 0; i < defs.length * 2; i++) {
             if (defs[i/2] != null) {
-                String textPOS = i + ". " + winWord.getWord() + " (" + defs[i/2].getPart() + ")";
+                String textPOS = ((i/2)+1) + ". " + winWord.getWord() + " (" + defs[i/2].getPart() + ")";
                 String textDef = defs[i/2].getDefinition();
                 
                 JLabel pos = new JLabel(textPOS);
