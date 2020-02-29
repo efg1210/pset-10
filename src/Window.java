@@ -16,10 +16,28 @@ public class Window extends JPanel {
     
     public void initComponents() {
         if (winWord == null) {
-            
+            showDefault();
         } else {
             showWord();
         }
+    }
+    
+    private void showDefault() {
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        
+        JLabel welcome = new JLabel();
+        welcome.setText("WELCOME");
+        welcome.setFont(new Font(getFont().getName(), getFont().getStyle(), 50));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(welcome, gbc);
+        
+        JLabel message = new JLabel("Welcome to the graphical dictionary. You can look up words, add words, delete words, and sort words. Please rate us 5 stars on Application Store\u2122.");
+        message.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+        gbc.gridy = 1;
+        add(message, gbc);
     }
     
     private void showWord() {

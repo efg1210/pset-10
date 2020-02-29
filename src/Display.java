@@ -29,7 +29,7 @@ public class Display extends JFrame {
     }
     
     private void makeWindow() {
-        Window window = new Window(displayWords[1]);
+        Window window = new Window(/*displayWords[1]*/null);
         window.initComponents();
         winScrollPane = new JScrollPane(window);
         winScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
