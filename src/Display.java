@@ -39,7 +39,7 @@ public class Display extends JFrame {
     private void makeToolbar() {
         Toolbar toolbar = new Toolbar(displayWords);
         Word winWord = toolbar.initComponents();
-        System.out.println("winWord: " + winWord);
+        //System.out.println("winWord: " + winWord);
         tbScrollPane = new JScrollPane(toolbar);
         tbScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         tbScrollPane.setSize(screenSize.width/3, screenSize.height);

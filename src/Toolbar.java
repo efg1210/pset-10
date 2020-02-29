@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class Toolbar extends JPanel implements ActionListener {
     
@@ -56,36 +60,22 @@ public class Toolbar extends JPanel implements ActionListener {
     
     public String makeWords(GridBagConstraints gbc) {
         //JList can sort itself
-        JList jList = new JList(parseWords(tbWords));
+        JList wordsList = new JList(parseWords(tbWords));
         gbc.gridy = 3;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         
         Word[] word = new Word[1];
         word[0] = null;
-        
-        MouseListener mouseListener = new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1 || e.getClickCount() == 2) {
-                   String selection = (String) jList.getSelectedValue();
-                   for (Word wordLoop: tbWords) {
-                       if(wordLoop.getWord().equals(selection)) {
-                           System.out.println("hi");
-                           word[0] = wordLoop;
-                           System.out.println("word[0]: " + word[0]);
-                       }
-                   }
-                 }
+        wordsList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                System.out.println("hello?");
             }
-        };
-        jList.getSelectedValue();
-        
-        System.out.println("getSelectedValue: " + jList.getSelectedValue());
-        
-        System.out.println(word[0]);
-        
-        add(jList, gbc);
-        
+            
+        });
+
+        add(wordsList, gbc);
         return "hi";
     }
     
@@ -93,16 +83,16 @@ public class Toolbar extends JPanel implements ActionListener {
         JButton clicked = (JButton) e.getSource();
         System.out.println(clicked.getText());
         switch (clicked.getText()) {
-        case "Add": //app.addWord(words); break;
-        case "Asc": 
-            //app.sortWords();
-            //initComponents();
-            break;
-        case "Desc": 
-            //app.sortWordsDesc();
-            //initComponents();
-            break;
-        default: System.out.println("i don't actually know if this is possible right now");
+            case "Add": //app.addWord(words); break;
+            case "Asc": 
+                //app.sortWords();
+                //initComponents();
+                break;
+            case "Desc": 
+                //app.sortWordsDesc();
+                //initComponents();
+                break;
+            default: System.out.println("i don't actually know if this is possible right now");
         }
     }
     

@@ -37,9 +37,7 @@ public class Window extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = totalLength + 5;
         add(title, gbc);
-        
-        System.out.println(totalLength);
-        
+                
         String[] ants = winWord.getAnt();
         for (int i = 0; i < ants.length; i++) {
             JLabel ant = new JLabel(ants[i]);
