@@ -29,7 +29,7 @@ public class Display extends JFrame {
     }
     
     private void makeWindow() {
-        Window window = new Window(/*displayWords[1]*/null);
+        Window window = new Window("allocation", displayWords);
         window.initComponents();
         winScrollPane = new JScrollPane(window);
         winScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -38,8 +38,7 @@ public class Display extends JFrame {
     
     private void makeToolbar() {
         Toolbar toolbar = new Toolbar(displayWords);
-        Word winWord = toolbar.initComponents();
-        //System.out.println("winWord: " + winWord);
+        String winWord = toolbar.initComponents();
         tbScrollPane = new JScrollPane(toolbar);
         tbScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         tbScrollPane.setSize(screenSize.width/3, screenSize.height);

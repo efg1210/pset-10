@@ -6,6 +6,7 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+@SuppressWarnings("serial")
 public class Toolbar extends JPanel implements ActionListener {
     
     private Word[] tbWords;
@@ -15,7 +16,7 @@ public class Toolbar extends JPanel implements ActionListener {
         tbWords = displayWords;
     }
     
-    public Word initComponents() {
+    public String initComponents() {
         
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -47,33 +48,27 @@ public class Toolbar extends JPanel implements ActionListener {
         gbc.gridx = 1;
         add(descButton, gbc);
         
-        return getWordFromString(makeWords(gbc));
-    }
-    
-    private Word getWordFromString(String stringWord) {
-        for (Word word: tbWords) {
-            if (word.getWord().equals(stringWord)) {
-                return word;
-            }
-        }
-        return null;
+        return makeWords(gbc);
     }
     
     public String makeWords(GridBagConstraints gbc) {
+        
+        final Container parent = this;
+        
         //JList can sort itself
-        JList wordsList = new JList(parseWords(tbWords));
+        JList wordsList = new JList(Utils.parseWords(tbWords));
         gbc.gridy = 3;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         
         Word[] word = new Word[1];
         word[0] = null;
-        final Container parent = this;
         wordsList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     //parent.dispatchEvent(e);
+                    //System.out.println("test: " + ((JList) e.getSource()).getText());
                     selection = wordsList.getSelectedValue().toString();
                     System.out.println("in: " + selection);
                 }
@@ -100,15 +95,7 @@ public class Toolbar extends JPanel implements ActionListener {
                 //app.sortWordsDesc();
                 //initComponents();
                 break;
-            default: System.out.println("i don't actually know if this is possible right now");
+            default:
         }
-    }
-    
-    private String[] parseWords(Word[] words) {
-        String[] onlyWords = new String[words.length];
-        for (int i = 0; i < words.length; i++) {
-            onlyWords[i] = words[i].getWord();
-        }
-        return onlyWords;
     }
 }

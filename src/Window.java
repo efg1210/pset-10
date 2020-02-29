@@ -3,23 +3,64 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Arrays;
 
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class Window extends JPanel {
 
     private Word winWord;
+    private boolean add;
     
-    public Window(Word tbWord) {
-        winWord = tbWord;
+    public Window(String tbWord, Word[] tbWords) {
+        winWord = null;
+        add = false;
+        if (Arrays.asList(Utils.parseWords(tbWords)).contains(tbWord)) {
+            winWord = getWordFromString(tbWord, tbWords);
+        } else if (tbWord.equals("Add1")) {
+            add = true;
+        }
+    }
+    
+    public Window() {
+        winWord = null;
     }
     
     public void initComponents() {
         if (winWord == null) {
             showDefault();
+        } else if (add) {
+            showAdd();
         } else {
             showWord();
         }
+    }
+    
+    private Word showAdd() {
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        
+        JLabel title = new JLabel();
+        title.setText("ADD");
+        title.setFont(new Font(getFont().getName(), getFont().getStyle(), 50));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(title, gbc);
+        
+        JTextField addWord = new JTextField("Word");
+        
+        return new Word();
+    }
+    
+    private Word getWordFromString(String stringWord, Word[] tbWords) {
+        for (Word word: tbWords) {
+            if (word.getWord().equals(stringWord)) {
+                return word;
+            }
+        }
+        return null;
     }
     
     private void showDefault() {

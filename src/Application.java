@@ -60,8 +60,6 @@ public class Application {
         return words;
     }
     
-    
-
     private void runDisplay() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
