@@ -19,29 +19,58 @@ public class Window extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         
         JLabel word = new JLabel();
-        word.setText("Word");
+        word.setText(winWord.getWord().toUpperCase());
         word.setFont(new Font(getFont().getName(), getFont().getStyle(), 50));
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(word, gbc);
         
-        showDefs(gbc);
-        showSyns(gbc);
+        showAnts(gbc, showSyns(gbc, showDefs(gbc)));
+    }
+    
+    private void showAnts(GridBagConstraints gbc, int totalLength) {
+        JLabel title = new JLabel();
+        title.setText("Antonym");
+        title.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = totalLength + 5;
+        add(title, gbc);
         
-        for (int i = 0; i < 2; i++) {
-            JLabel syn = new JLabel("synonyms");
+        System.out.println(totalLength);
+        
+        String[] ants = winWord.getAnt();
+        for (int i = 0; i < ants.length; i++) {
+            JLabel ant = new JLabel(ants[i]);
+            ant.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
             gbc.gridx = 0;
-            gbc.gridy = 22+i;
-            add(syn, gbc);
+            gbc.gridy = i + totalLength + 6;
+            add(ant, gbc);
         }
     }
     
-    private void showSyns(GridBagConstraints gbc) {
+    private int showSyns(GridBagConstraints gbc, int defLength) {
+        JLabel title = new JLabel();
+        title.setText("Synonyms");
+        title.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = defLength;
+        add(title, gbc);
         
+        String[] syns = winWord.getSyn();
+        for (int i = 0; i < syns.length; i++) {
+            JLabel syn = new JLabel(syns[i]);
+            syn.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+            gbc.gridx = 0;
+            gbc.gridy = i + defLength + 5;
+            add(syn, gbc);
+        }
+        return syns.length + 1 + defLength;
     }
     
-    private void showDefs(GridBagConstraints gbc) {
+    private int showDefs(GridBagConstraints gbc) {
         JLabel title = new JLabel();
         title.setText("Definitions");
         title.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
@@ -52,21 +81,24 @@ public class Window extends JPanel {
         
         Definition[] defs = winWord.getDefinitions();
         for (int i = 0; i < defs.length * 2; i++) {
-            if (defs[i/2] != null) {
-                String textPOS = ((i/2)+1) + ". " + winWord.getWord() + " (" + defs[i/2].getPart() + ")";
-                String textDef = defs[i/2].getDefinition();
+            if (defs[i / 2] != null) {
+                String textPOS = ((i / 2) + 1) + ". " + winWord.getWord() + " (" + defs[i / 2].getPart() + ")";
+                String textDef = "          " + defs[i / 2].getDefinition();
                 
                 JLabel pos = new JLabel(textPOS);
+                pos.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
                 gbc.gridx = 0;
-                gbc.gridy = i+2;
+                gbc.gridy = i + 2;
                 add(pos, gbc);
                 
                 i++;
                 JLabel def = new JLabel(textDef);
-                gbc.gridx = 1;
-                gbc.gridy = i+2;
+                def.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+                gbc.gridx = 0;
+                gbc.gridy = i + 2;
                 add(def, gbc);
             }
         }
+        return ((defs.length * 2) + 2);
     }
 }
