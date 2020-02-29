@@ -15,6 +15,14 @@ public class Window extends JPanel {
     }
     
     public void initComponents() {
+        if (winWord == null) {
+            
+        } else {
+            showWord();
+        }
+    }
+    
+    private void showWord() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         

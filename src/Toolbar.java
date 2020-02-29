@@ -9,6 +9,7 @@ import javax.swing.event.ListSelectionListener;
 public class Toolbar extends JPanel implements ActionListener {
     
     private Word[] tbWords;
+    private String selection;
     
     public Toolbar(Word[] displayWords) {
         tbWords = displayWords;
@@ -67,13 +68,20 @@ public class Toolbar extends JPanel implements ActionListener {
         
         Word[] word = new Word[1];
         word[0] = null;
+        final Container parent = this;
         wordsList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                System.out.println("hello?");
+                if (!e.getValueIsAdjusting()) {
+                    //parent.dispatchEvent(e);
+                    selection = wordsList.getSelectedValue().toString();
+                    System.out.println("in: " + selection);
+                }
             }
-            
         });
+        
+        System.out.println("out: " + selection);
+        //System.out.println("e: " + parent.e);
 
         add(wordsList, gbc);
         return "hi";
