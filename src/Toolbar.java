@@ -12,26 +12,43 @@ public class Toolbar extends JPanel implements ActionListener {
     private Word[] tbWords;
     private String selection;
     private JList wordsList;
+    private JButton addButton;
+    private JButton deleteButton;
     
     public Toolbar(Word[] displayWords) {
         tbWords = displayWords;
+    }
+    
+    private void setTBWords(Word[] words) {
+        this.tbWords = words;
     }
     
     public JList getJList() {
         return wordsList;
     }
     
+    public JButton getAddButton() {
+        return addButton;
+    }
+    
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+    
     public void initComponents() {
+        removeAll();
+        revalidate();
+        
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         
-        JButton addButton = new JButton("Add");
+        addButton = new JButton("Add");
         addButton.addActionListener(this);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(addButton, gbc);
-        JButton deleteButton = new JButton("Delete");
+        deleteButton = new JButton("Delete");
         deleteButton.addActionListener(this);
         gbc.gridx = 1;
         add(deleteButton, gbc);
@@ -53,8 +70,7 @@ public class Toolbar extends JPanel implements ActionListener {
         add(descButton, gbc);
         
         makeWords(gbc);
-        
-        //return selection;
+        setVisible(true);
     }
     
     public void makeWords(GridBagConstraints gbc) {
@@ -63,33 +79,21 @@ public class Toolbar extends JPanel implements ActionListener {
         gbc.gridy = 3;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
-                
-        //wordsList.addListSelectionListener(this);
-        
         add(wordsList, gbc);
+        setVisible(true);
     }
     
-//    public void valueChanged(ListSelectionEvent e) {
-//        if (!e.getValueIsAdjusting()) {
-//            selection = ((JList) e.getSource()).getSelectedValue().toString();
-//            //initComponents();
-//        }
-//    }
     
     public void actionPerformed(ActionEvent e) {
-//        final Container parent = this;
-//        parent.dispatchEvent(e);
         JButton clicked = (JButton) e.getSource();
-        System.out.println(clicked.getText());
         switch (clicked.getText()) {
-            case "Add": //app.addWord(words); break;
-            case "Asc": 
-                //app.sortWords();
-                //initComponents();
+            case "Asc":
+                setTBWords(Utils.sortWords(tbWords));
+                initComponents();
                 break;
-            case "Desc": 
-                //app.sortWordsDesc();
-                //initComponents();
+            case "Desc":
+                setTBWords(Utils.sortWordsDesc(tbWords));
+                initComponents();
                 break;
             default:
         }

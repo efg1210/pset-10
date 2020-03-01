@@ -13,20 +13,6 @@ public class Application {
         display = new Display(words);
     }
     
-    public void sortWords() {
-        Arrays.sort(this.words, (a, b) -> a.getWord().compareTo(b.getWord()));
-    }
-    
-    public Word[] sortWordsDesc() {
-        sortWords();        
-        for (int i = 0; i < words.length / 2; i++) {
-            Word temp = words[i];
-            words[i] = words[words.length - i - 1];
-            words[words.length - i - 1] = temp;
-        }
-        return words;
-    }
-    
     public void printAll() {
         for (Word word: words) {
             System.out.println(word.getWord());
@@ -50,7 +36,7 @@ public class Application {
         Gson gson = new Gson();
         try (Reader reader = new FileReader(System.getProperty("user.dir") + File.separator + "words.json")) {
             this.words = gson.fromJson(reader, Word[].class);
-            sortWords();
+            Utils.sortWords(words);
         } catch (IOException e) {
             e.printStackTrace();
         }
