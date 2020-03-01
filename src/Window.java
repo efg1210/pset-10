@@ -16,6 +16,9 @@ public class Window extends JPanel {
     private Word winWord;
     
     public Window(String tbWord, Word[] tbWords) {
+        removeAll();
+        revalidate();
+        repaint();
         winWord = null;
         if (Arrays.asList(Utils.parseWords(tbWords)).contains(tbWord)) {
             winWord = getWordFromString(tbWord, tbWords);
@@ -33,7 +36,6 @@ public class Window extends JPanel {
     }
     
     private Word showAdd() {
-        removeAll();
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         
@@ -102,7 +104,6 @@ public class Window extends JPanel {
     }
     
     private void showDefault() {
-        removeAll();
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         
@@ -121,7 +122,6 @@ public class Window extends JPanel {
     }
     
     private void showWord() {
-        removeAll();
         System.out.println("into showWord");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -133,7 +133,7 @@ public class Window extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(word, gbc);
-        
+        System.out.println("nearly out of showWord");
         showAnts(gbc, showSyns(gbc, showDefs(gbc)));
     }
     
