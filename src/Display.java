@@ -40,7 +40,10 @@ public class Display extends JFrame implements ListSelectionListener {
         winScrollPane = new JScrollPane(window);
         winScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         winScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        add(winScrollPane, BorderLayout.CENTER); 
+        
+        add(winScrollPane, BorderLayout.CENTER);
+        System.out.println("did it add winScrollPane??????");
+        setVisible(true);
     }
     
     private void makeToolbar() {
@@ -60,7 +63,11 @@ public class Display extends JFrame implements ListSelectionListener {
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             selection = ((JList) e.getSource()).getSelectedValue().toString();
-            makeToolbar();
+//            tbScrollPane.removeAll();
+//            makeToolbar();
+//            winScrollPane.removeAll();
+            remove(winScrollPane);
+//            repaint(winScrollPane);
             makeWindow();
         }
     }

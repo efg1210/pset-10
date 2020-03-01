@@ -18,9 +18,9 @@ public class Window extends JPanel {
     private GridBagConstraints gbc;
     
     public Window(String tbWord, Word[] tbWords) {
-        this.removeAll();
-        this.revalidate();
-        this.repaint();
+//        this.removeAll();
+//        this.revalidate();
+//        this.repaint();
         setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         winWord = null;
@@ -33,8 +33,6 @@ public class Window extends JPanel {
         } else {
             showDefault();
         }
-        revalidate();
-        repaint();
     }
     
     public Window() {
@@ -128,9 +126,9 @@ public class Window extends JPanel {
     }
     
     private void showWord() {
-        setBackground(Color.RED);
-        System.out.println("into showWord");
-        System.out.println("winWord.getWord(): " + winWord.getWord());
+        //setBackground(Color.RED);
+        //System.out.println("into showWord");
+        //System.out.println("winWord.getWord(): " + winWord.getWord());
         
         JLabel word = new JLabel();
         word.setText(winWord.getWord().toUpperCase());
@@ -139,21 +137,30 @@ public class Window extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(word, gbc);
-        System.out.println("nearly out of showWord");
+        //System.out.println("nearly out of showWord");
         showAnts(showSyns(showDefs()));
         setVisible(true);
     }
     
     private void showAnts(int totalLength) {
         JLabel title = new JLabel();
-        title.setText("Antonym");
+        String[] ants = winWord.getAnt();
+        
+        if (ants.length > 1) {
+            title.setText("Antonyms");
+        } else if (ants.length == 1) {
+            title.setText("Antonym");
+        }
+        
         title.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = totalLength + 5;
-        add(title, gbc);
-                
-        String[] ants = winWord.getAnt();
+        
+        if (ants.length > 0) {
+            add(title, gbc);
+        }
+        
         for (int i = 0; i < ants.length; i++) {
             JLabel ant = new JLabel(ants[i]);
             ant.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
@@ -165,14 +172,25 @@ public class Window extends JPanel {
     
     private int showSyns(int defLength) {
         JLabel title = new JLabel();
-        title.setText("Synonyms");
+        String[] syns = winWord.getSyn();
+        
+        if (syns.length > 1) {
+            title.setText("Synonyms");
+        } else if (syns.length == 1) {
+            title.setText("Synonym");
+        }
+        
         title.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = defLength;
-        add(title, gbc);
         
-        String[] syns = winWord.getSyn();
+        if (syns.length > 0) {
+            add(title, gbc);
+        } else {
+            return defLength;
+        }
+        
         for (int i = 0; i < syns.length; i++) {
             JLabel syn = new JLabel(syns[i]);
             syn.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
