@@ -1,12 +1,17 @@
 import java.awt.*;
-import javax.swing.*;
+import java.awt.event.ActionListener;
 
-public class Display extends JFrame {
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+public class Display extends JFrame implements ListSelectionListener {
     private static final long serialVersionUID = 1L;
     
     private Word[] displayWords;
     private JScrollPane tbScrollPane;
     private JScrollPane winScrollPane;
+    private String selection = null;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     
     public Display(Word[] words) {
@@ -29,19 +34,34 @@ public class Display extends JFrame {
     }
     
     private void makeWindow() {
-        Window window = new Window("allocation", displayWords);
-        window.initComponents();
+        //System.out.println("do i make it here?");
+        Window window = new Window(selection, displayWords);
+        //initComponents();
         winScrollPane = new JScrollPane(window);
-        winScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        winScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        winScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         add(winScrollPane, BorderLayout.CENTER); 
     }
     
     private void makeToolbar() {
         Toolbar toolbar = new Toolbar(displayWords);
-        String winWord = toolbar.initComponents();
+        /*String winWord = */toolbar.initComponents();
+        //System.out.println("winWord: " + winWord);
+        
+        JList wordsList = toolbar.getJList();
+        wordsList.addListSelectionListener(this);
+        
         tbScrollPane = new JScrollPane(toolbar);
         tbScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         tbScrollPane.setSize(screenSize.width/3, screenSize.height);
         add(tbScrollPane, BorderLayout.WEST);
+    }
+
+    public void valueChanged(ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            selection = ((JList) e.getSource()).getSelectedValue().toString();
+            makeToolbar();
+            makeWindow();
+        }
     }
 }

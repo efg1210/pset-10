@@ -11,13 +11,17 @@ public class Toolbar extends JPanel implements ActionListener {
     
     private Word[] tbWords;
     private String selection;
+    private JList wordsList;
     
     public Toolbar(Word[] displayWords) {
         tbWords = displayWords;
     }
     
-    public String initComponents() {
-        
+    public JList getJList() {
+        return wordsList;
+    }
+    
+    public void initComponents() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         
@@ -48,41 +52,33 @@ public class Toolbar extends JPanel implements ActionListener {
         gbc.gridx = 1;
         add(descButton, gbc);
         
-        return makeWords(gbc);
+        makeWords(gbc);
+        
+        //return selection;
     }
     
-    public String makeWords(GridBagConstraints gbc) {
-        
-        final Container parent = this;
-        
+    public void makeWords(GridBagConstraints gbc) {
         //JList can sort itself
-        JList wordsList = new JList(Utils.parseWords(tbWords));
+        wordsList = new JList(Utils.parseWords(tbWords));
         gbc.gridy = 3;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
+                
+        //wordsList.addListSelectionListener(this);
         
-        Word[] word = new Word[1];
-        word[0] = null;
-        wordsList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    //parent.dispatchEvent(e);
-                    //System.out.println("test: " + ((JList) e.getSource()).getText());
-                    selection = wordsList.getSelectedValue().toString();
-                    System.out.println("in: " + selection);
-                }
-            }
-        });
-        
-        System.out.println("out: " + selection);
-        //System.out.println("e: " + parent.e);
-
         add(wordsList, gbc);
-        return "hi";
     }
     
+//    public void valueChanged(ListSelectionEvent e) {
+//        if (!e.getValueIsAdjusting()) {
+//            selection = ((JList) e.getSource()).getSelectedValue().toString();
+//            //initComponents();
+//        }
+//    }
+    
     public void actionPerformed(ActionEvent e) {
+//        final Container parent = this;
+//        parent.dispatchEvent(e);
         JButton clicked = (JButton) e.getSource();
         System.out.println(clicked.getText());
         switch (clicked.getText()) {

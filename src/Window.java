@@ -1,8 +1,11 @@
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 import javax.swing.*;
@@ -11,15 +14,17 @@ import javax.swing.*;
 public class Window extends JPanel {
 
     private Word winWord;
-    private boolean add;
     
     public Window(String tbWord, Word[] tbWords) {
         winWord = null;
-        add = false;
         if (Arrays.asList(Utils.parseWords(tbWords)).contains(tbWord)) {
             winWord = getWordFromString(tbWord, tbWords);
-        } else if (tbWord.equals("Add1")) {
-            add = true;
+            System.out.println("winWord: " + winWord.getWord());
+            showWord();
+//        } else if (tbWord.equals("Add")) {
+//            showAdd();
+        } else {
+            showDefault();
         }
     }
     
@@ -27,17 +32,8 @@ public class Window extends JPanel {
         winWord = null;
     }
     
-    public void initComponents() {
-        if (winWord == null) {
-            showDefault();
-        } else if (add) {
-            showAdd();
-        } else {
-            showWord();
-        }
-    }
-    
     private Word showAdd() {
+        removeAll();
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         
@@ -49,9 +45,51 @@ public class Window extends JPanel {
         gbc.gridy = 0;
         add(title, gbc);
         
-        JTextField addWord = new JTextField("Word");
+        JLabel wordTitle = new JLabel();
+        wordTitle.setText("Word");
+        wordTitle.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        add(wordTitle, gbc);
         
-        return new Word();
+        JTextField addWord = new JTextField("New word");
+        addWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        add(addWord, gbc);
+        
+        showAddDef(gbc);
+        
+        return winWord;
+    }
+    
+    private int showAddDef(GridBagConstraints gbc) {
+        JLabel defTitle = new JLabel();
+        defTitle.setText("Definitions");
+        defTitle.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        add(defTitle, gbc);
+                   
+        JTextField defCounter = new JTextField("Number of definitions (press enter)");
+        
+        defCounter.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        add(defCounter, gbc);
+        
+        JTextField addDef = new JTextField("New definition");
+        addDef.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        add(addDef, gbc);
+        JTextField addPOS = new JTextField("New part of speech");
+        addPOS.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        add(addPOS, gbc);
+        
+        return 6;
     }
     
     private Word getWordFromString(String stringWord, Word[] tbWords) {
@@ -64,6 +102,7 @@ public class Window extends JPanel {
     }
     
     private void showDefault() {
+        removeAll();
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         
@@ -82,6 +121,8 @@ public class Window extends JPanel {
     }
     
     private void showWord() {
+        removeAll();
+        System.out.println("into showWord");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         
