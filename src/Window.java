@@ -24,8 +24,10 @@ public class Window extends JPanel {
         if (Arrays.asList(Utils.parseWords(tbWords)).contains(tbWord)) {
             winWord = getWordFromString(tbWord, tbWords);
             showWord();
-//        } else if (tbWord.equals("Add")) {
-//            showAdd();
+        } else if (tbWord == null) {
+            showDefault();
+        } else if (tbWord.equals("Add")) {
+            showAdd();
         } else {
             showDefault();
         }

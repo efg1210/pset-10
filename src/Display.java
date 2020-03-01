@@ -97,6 +97,10 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
                 remove(tbScrollPane);
                 makeToolbar();
                 break;
+            case "Add":
+                remove(winScrollPane);
+                selection = "Add";
+                makeWindow();
             default:
         }
     }
