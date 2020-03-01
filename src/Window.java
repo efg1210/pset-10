@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,11 +15,14 @@ import javax.swing.*;
 public class Window extends JPanel {
 
     private Word winWord;
+    private GridBagConstraints gbc;
     
     public Window(String tbWord, Word[] tbWords) {
-        removeAll();
-        revalidate();
-        repaint();
+        this.removeAll();
+        this.revalidate();
+        this.repaint();
+        setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
         winWord = null;
         if (Arrays.asList(Utils.parseWords(tbWords)).contains(tbWord)) {
             winWord = getWordFromString(tbWord, tbWords);
@@ -29,6 +33,8 @@ public class Window extends JPanel {
         } else {
             showDefault();
         }
+        revalidate();
+        repaint();
     }
     
     public Window() {
@@ -36,8 +42,8 @@ public class Window extends JPanel {
     }
     
     private Word showAdd() {
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+//        setLayout(new GridBagLayout());
+//        GridBagConstraints gbc = new GridBagConstraints();
         
         JLabel title = new JLabel();
         title.setText("ADD");
@@ -60,12 +66,12 @@ public class Window extends JPanel {
         gbc.gridy = 3;
         add(addWord, gbc);
         
-        showAddDef(gbc);
+        showAddDef();
         
         return winWord;
     }
     
-    private int showAddDef(GridBagConstraints gbc) {
+    private int showAddDef() {
         JLabel defTitle = new JLabel();
         defTitle.setText("Definitions");
         defTitle.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
@@ -122,9 +128,9 @@ public class Window extends JPanel {
     }
     
     private void showWord() {
+        setBackground(Color.RED);
         System.out.println("into showWord");
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        System.out.println("winWord.getWord(): " + winWord.getWord());
         
         JLabel word = new JLabel();
         word.setText(winWord.getWord().toUpperCase());
@@ -134,10 +140,11 @@ public class Window extends JPanel {
         gbc.gridy = 0;
         add(word, gbc);
         System.out.println("nearly out of showWord");
-        showAnts(gbc, showSyns(gbc, showDefs(gbc)));
+        showAnts(showSyns(showDefs()));
+        setVisible(true);
     }
     
-    private void showAnts(GridBagConstraints gbc, int totalLength) {
+    private void showAnts(int totalLength) {
         JLabel title = new JLabel();
         title.setText("Antonym");
         title.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
@@ -156,7 +163,7 @@ public class Window extends JPanel {
         }
     }
     
-    private int showSyns(GridBagConstraints gbc, int defLength) {
+    private int showSyns(int defLength) {
         JLabel title = new JLabel();
         title.setText("Synonyms");
         title.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
@@ -176,7 +183,7 @@ public class Window extends JPanel {
         return syns.length + 1 + defLength;
     }
     
-    private int showDefs(GridBagConstraints gbc) {
+    private int showDefs() {
         JLabel title = new JLabel();
         title.setText("Definitions");
         title.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));

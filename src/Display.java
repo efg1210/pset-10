@@ -34,7 +34,7 @@ public class Display extends JFrame implements ListSelectionListener {
     }
     
     private void makeWindow() {
-        //System.out.println("do i make it here?");
+        System.out.println("selection: " + selection);
         Window window = new Window(selection, displayWords);
         //initComponents();
         winScrollPane = new JScrollPane(window);
