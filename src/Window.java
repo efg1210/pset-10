@@ -12,10 +12,11 @@ import java.util.Arrays;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class Window extends JPanel {
+public class Window extends JPanel implements ActionListener{
 
     private Word winWord;
     private GridBagConstraints gbc;
+    private int defFieldCount = 0;
     
     public Window(String tbWord, Word[] tbWords) {
         setLayout(new GridBagLayout());
@@ -72,25 +73,34 @@ public class Window extends JPanel {
         gbc.gridy = 4;
         add(defTitle, gbc);
                    
-        JTextField defCounter = new JTextField("Number of definitions (press enter)");
-        
-        defCounter.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+        JButton addDefBtn = new JButton("+ Definition");
+        //addDefBtn.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridx = 1;
         gbc.gridy = 4;
-        add(defCounter, gbc);
+        addDefBtn.addActionListener(this);
+        add(addDefBtn, gbc);
         
+        addDefFeild();
+        
+        return 6;
+    }
+    
+    private void addDefFeild() {
+        defFieldCount++;
         JTextField addDef = new JTextField("New definition");
         addDef.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 4 + defFieldCount;
         add(addDef, gbc);
-        JTextField addPOS = new JTextField("New part of speech");
-        addPOS.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        add(addPOS, gbc);
         
-        return 6;
+        defFieldCount++;
+        String[] partsOfSpeech = {"noun", "verb", "adjective", "adverb", "pronoun", "preposition", "conjunction", "interjection", "determiner"};
+        JComboBox addPOS = new JComboBox(partsOfSpeech);
+        //addPOS.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+        gbc.gridx = 0;
+        gbc.gridy = 4 + defFieldCount;
+        add(addPOS, gbc);
+        revalidate();
     }
     
     private Word getWordFromString(String stringWord, Word[] tbWords) {
@@ -218,5 +228,16 @@ public class Window extends JPanel {
             }
         }
         return ((defs.length * 2) + 2);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JButton clicked = (JButton) e.getSource();
+        switch (clicked.getText()) {
+            case "+ Definition":
+                System.out.println("+ Definition");
+                addDefFeild();
+                break;
+        }
     }
 }
