@@ -7,20 +7,18 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 @SuppressWarnings("serial")
-public class Toolbar extends JPanel implements ActionListener {
+public class Toolbar extends JPanel {
     
     private Word[] tbWords;
     private String selection;
     private JList wordsList;
     private JButton addButton;
     private JButton deleteButton;
+    private JButton ascButton;
+    private JButton descButton;
     
     public Toolbar(Word[] displayWords) {
         tbWords = displayWords;
-    }
-    
-    private void setTBWords(Word[] words) {
-        this.tbWords = words;
     }
     
     public JList getJList() {
@@ -35,6 +33,14 @@ public class Toolbar extends JPanel implements ActionListener {
         return deleteButton;
     }
     
+    public JButton getAscButton() {
+        return ascButton;
+    }
+    
+    public JButton getDescButton() {
+        return descButton;
+    }
+    
     public void initComponents() {
         removeAll();
         revalidate();
@@ -43,13 +49,13 @@ public class Toolbar extends JPanel implements ActionListener {
         GridBagConstraints gbc = new GridBagConstraints();
         
         addButton = new JButton("Add");
-        addButton.addActionListener(this);
+        //addButton.addActionListener(this);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(addButton, gbc);
         deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(this);
+        //deleteButton.addActionListener(this);
         gbc.gridx = 1;
         add(deleteButton, gbc);
         
@@ -59,13 +65,13 @@ public class Toolbar extends JPanel implements ActionListener {
         gbc.gridwidth = 2;
         add(search, gbc);
         
-        JButton ascButton = new JButton("Asc");
-        ascButton.addActionListener(this);
+        ascButton = new JButton("Asc");
+        //ascButton.addActionListener(this);
         gbc.gridy = 2;
         gbc.gridwidth = 1;
         add(ascButton, gbc);
-        JButton descButton = new JButton("Desc");
-        descButton.addActionListener(this);
+        descButton = new JButton("Desc");
+        //descButton.addActionListener(this);
         gbc.gridx = 1;
         add(descButton, gbc);
         
@@ -84,18 +90,18 @@ public class Toolbar extends JPanel implements ActionListener {
     }
     
     
-    public void actionPerformed(ActionEvent e) {
-        JButton clicked = (JButton) e.getSource();
-        switch (clicked.getText()) {
-            case "Asc":
-                setTBWords(Utils.sortWords(tbWords));
-                initComponents();
-                break;
-            case "Desc":
-                setTBWords(Utils.sortWordsDesc(tbWords));
-                initComponents();
-                break;
-            default:
-        }
-    }
+//    public void actionPerformed(ActionEvent e) {
+//        JButton clicked = (JButton) e.getSource();
+//        switch (clicked.getText()) {
+//            case "Asc":
+//                setTBWords(Utils.sortWords(tbWords));
+//                initComponents();
+//                break;
+//            case "Desc":
+//                setTBWords(Utils.sortWordsDesc(tbWords));
+//                initComponents();
+//                break;
+//            default:
+//        }
+//    }
 }

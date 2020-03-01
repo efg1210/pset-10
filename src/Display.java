@@ -14,10 +14,16 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     private JScrollPane winScrollPane;
     private String selection = null;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private JList wordsList;
+    private Toolbar toolbar;
     
     public Display(Word[] words) {
         this.displayWords = words;
         initComponents();
+    }
+    
+    private void setDisplayWords(Word[] words) {
+        this.displayWords = words;
     }
     
     private void initComponents() {
@@ -44,17 +50,21 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     }
     
     private void makeToolbar() {
-        Toolbar toolbar = new Toolbar(displayWords);
+        toolbar = new Toolbar(displayWords);
         toolbar.initComponents();
         
-        JList wordsList = toolbar.getJList();
+        wordsList = toolbar.getJList();
         wordsList.addListSelectionListener(this);
         
         JButton addButton = toolbar.getAddButton();
         JButton deleteButton = toolbar.getDeleteButton();
+        JButton ascButton = toolbar.getAscButton();
+        JButton descButton = toolbar.getDescButton();
         addButton.addActionListener(this);
         deleteButton.addActionListener(this);
-        
+        ascButton.addActionListener(this);
+        descButton.addActionListener(this);
+                
         tbScrollPane = new JScrollPane(toolbar);
         tbScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         tbScrollPane.setSize(screenSize.width/3, screenSize.height);
@@ -70,10 +80,24 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
             makeWindow();
         }
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        
+        wordsList = toolbar.getJList();
+        wordsList.addListSelectionListener(this);        
+        JButton clicked = (JButton) e.getSource();
+        switch (clicked.getText()) {
+            case "Asc":
+                setDisplayWords(Utils.sortWords(displayWords));
+                remove(tbScrollPane);
+                makeToolbar();
+                break;
+            case "Desc":
+                setDisplayWords(Utils.sortWordsDesc(displayWords));
+                remove(tbScrollPane);
+                makeToolbar();
+                break;
+            default:
+        }
     }
 }
