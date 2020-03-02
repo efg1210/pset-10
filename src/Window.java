@@ -9,23 +9,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.Arrays;
-
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class Window extends JPanel implements ActionListener, ItemListener {
+public class Window extends JPanel implements ActionListener {
 
     private Word winWord;
     private GridBagConstraints gbc;
     private int defFieldCount = 0;
     
+    private JTextField addWord;
+    private ArrayList<JTextField> defs = new ArrayList<JTextField>();
+    private ArrayList<JComboBox> POSs = new ArrayList<JComboBox>();
     private JLabel synsTitle;
     private JTextField synsWord;
     private JLabel antsTitle;
     private JTextField antsWord;
     private JButton submit;
-    
     
     public Window(String tbWord, Word[] tbWords) {
         setLayout(new GridBagLayout());
@@ -54,7 +56,7 @@ public class Window extends JPanel implements ActionListener, ItemListener {
         gbc.gridy = 5 + defFieldCount;
         add(synsTitle, gbc);
         
-        synsWord = new JTextField("Seperate with spaces");
+        synsWord = new JTextField("Seperate with a comma and a space");
         synsWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridy = 6 + defFieldCount;
         add(synsWord, gbc);
@@ -67,7 +69,7 @@ public class Window extends JPanel implements ActionListener, ItemListener {
         gbc.gridy = 7 + defFieldCount;
         add(antsTitle, gbc);
         
-        antsWord = new JTextField("Seperate with spaces");
+        antsWord = new JTextField("Seperate with a comma and a space");
         antsWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridy = 8 + defFieldCount;
         add(antsWord, gbc);
@@ -88,7 +90,7 @@ public class Window extends JPanel implements ActionListener, ItemListener {
         gbc.gridy = 2;
         add(wordTitle, gbc);
         
-        JTextField addWord = new JTextField("New word");
+        addWord = new JTextField("New word");
         addWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridy = 3;
         add(addWord, gbc);
@@ -132,14 +134,16 @@ public class Window extends JPanel implements ActionListener, ItemListener {
         gbc.gridx = 0;
         gbc.gridy = 4 + defFieldCount;
         add(addDef, gbc);
+        defs.add(addDef);
         
         defFieldCount++;
         String[] partsOfSpeech = {"noun", "verb", "adjective", "adverb", "pronoun", "preposition", "conjunction", "interjection", "determiner"};
         JComboBox addPOS = new JComboBox(partsOfSpeech);
         //possibly not needed?
-        addPOS.addItemListener(this);
+        //addPOS.addItemListener(this);
         gbc.gridy = 4 + defFieldCount;
         add(addPOS, gbc);
+        POSs.add(addPOS);
     }
     
     private Word getWordFromString(String stringWord, Word[] tbWords) {
@@ -277,6 +281,25 @@ public class Window extends JPanel implements ActionListener, ItemListener {
         remove(submit);
     }
     
+    private void makeWord() {
+        String word = addWord.getText();
+        
+        String[] partsOfSpeech = new String[POSs.size()];
+        String[] definitions = new String[defs.size()];
+        
+        for (int i = 0; i < POSs.size(); i++) {
+            partsOfSpeech[i] = (String) POSs.get(i).getSelectedItem();
+        }
+        for (int i = 0; i < defs.size(); i++) {
+            definitions[i] = defs.get(i).getText();
+        }
+        
+        String[] synonyms = synsWord.getText().split(", ");
+        String[] antonym = antsWord.getText().split(", ");
+        
+        winWord = new Word(word, partsOfSpeech, definitions, synonyms, antonym);
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton clicked = (JButton) e.getSource();
@@ -290,13 +313,15 @@ public class Window extends JPanel implements ActionListener, ItemListener {
                 break;
             case "Submit":
                 System.out.println("Submit");
+                makeWord();
+                //word
         }
         revalidate();
     }
 
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
+//    @Override
+//    public void itemStateChanged(ItemEvent e) {
+//        // TODO Auto-generated method stub
+//        
+//    }
 }
