@@ -29,6 +29,8 @@ public class Window extends JPanel implements ActionListener{
             showDefault();
         } else if (tbWord.equals("Add")) {
             showAdd();
+            showAddSyn();
+            showAddAnt();
         } else {
             showDefault();
         }
@@ -38,25 +40,49 @@ public class Window extends JPanel implements ActionListener{
         winWord = null;
     }
     
+    private void showAddSyn() {
+        JLabel synTitle = new JLabel();
+        synTitle.setText("Synonyms");
+        synTitle.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
+        gbc.gridy = 5 + defFieldCount;
+        add(synTitle, gbc);
+        
+        JTextField synsWord = new JTextField("Seperate with spaces");
+        synsWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+        gbc.gridy = 6 + defFieldCount;
+        add(synsWord, gbc);
+    }
+    
+    private void showAddAnt() {
+        JLabel antsTitle = new JLabel();
+        antsTitle.setText("Antonyms");
+        antsTitle.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
+        gbc.gridy = 7 + defFieldCount;
+        add(antsTitle, gbc);
+        
+        JTextField antsWord = new JTextField("Seperate with spaces");
+        antsWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+        gbc.gridy = 8 + defFieldCount;
+        add(antsWord, gbc);
+    }
+    
+    
     private Word showAdd() {
         JLabel title = new JLabel();
         title.setText("ADD");
         title.setFont(new Font(getFont().getName(), getFont().getStyle(), 50));
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 0;
         gbc.gridy = 0;
         add(title, gbc);
         
         JLabel wordTitle = new JLabel();
         wordTitle.setText("Word");
         wordTitle.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
-        gbc.gridx = 0;
         gbc.gridy = 2;
         add(wordTitle, gbc);
         
         JTextField addWord = new JTextField("New word");
         addWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
-        gbc.gridx = 0;
         gbc.gridy = 3;
         add(addWord, gbc);
         
@@ -73,7 +99,7 @@ public class Window extends JPanel implements ActionListener{
         gbc.gridy = 4;
         add(defTitle, gbc);
                    
-        JButton addDefBtn = new JButton("+ Definition");
+        JButton addDefBtn = new JButton("+");
         //addDefBtn.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridx = 1;
         gbc.gridy = 4;
@@ -96,11 +122,8 @@ public class Window extends JPanel implements ActionListener{
         defFieldCount++;
         String[] partsOfSpeech = {"noun", "verb", "adjective", "adverb", "pronoun", "preposition", "conjunction", "interjection", "determiner"};
         JComboBox addPOS = new JComboBox(partsOfSpeech);
-        //addPOS.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
-        gbc.gridx = 0;
         gbc.gridy = 4 + defFieldCount;
         add(addPOS, gbc);
-        revalidate();
     }
     
     private Word getWordFromString(String stringWord, Word[] tbWords) {
@@ -234,10 +257,12 @@ public class Window extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         JButton clicked = (JButton) e.getSource();
         switch (clicked.getText()) {
-            case "+ Definition":
-                System.out.println("+ Definition");
+            case "+":
                 addDefFeild();
+                showAddSyn();
+                showAddAnt();
                 break;
         }
+        revalidate();
     }
 }
