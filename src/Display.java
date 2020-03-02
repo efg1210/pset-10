@@ -35,9 +35,11 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         makeToolbar();
         makeWindow();
         
+//        PopupFactory pf = new PopupFactory();
+//        pop pop = pf.getPopup(f, p2, 180, 100);
+        
         setSize(screenSize.width/2, screenSize.height);
         setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        
     }
     
     private void makeWindow() {
@@ -101,6 +103,8 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
                 remove(winScrollPane);
                 selection = "Add";
                 makeWindow();
+            case "Delete":
+                //pop.show();
             default:
         }
     }

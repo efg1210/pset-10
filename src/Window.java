@@ -7,16 +7,25 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Arrays;
 
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class Window extends JPanel implements ActionListener{
+public class Window extends JPanel implements ActionListener, ItemListener {
 
     private Word winWord;
     private GridBagConstraints gbc;
     private int defFieldCount = 0;
+    
+    private JLabel synsTitle;
+    private JTextField synsWord;
+    private JLabel antsTitle;
+    private JTextField antsWord;
+    private JButton submit;
+    
     
     public Window(String tbWord, Word[] tbWords) {
         setLayout(new GridBagLayout());
@@ -29,8 +38,6 @@ public class Window extends JPanel implements ActionListener{
             showDefault();
         } else if (tbWord.equals("Add")) {
             showAdd();
-            showAddSyn();
-            showAddAnt();
         } else {
             showDefault();
         }
@@ -41,26 +48,26 @@ public class Window extends JPanel implements ActionListener{
     }
     
     private void showAddSyn() {
-        JLabel synTitle = new JLabel();
-        synTitle.setText("Synonyms");
-        synTitle.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
+        synsTitle = new JLabel();
+        synsTitle.setText("Synonyms");
+        synsTitle.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
         gbc.gridy = 5 + defFieldCount;
-        add(synTitle, gbc);
+        add(synsTitle, gbc);
         
-        JTextField synsWord = new JTextField("Seperate with spaces");
+        synsWord = new JTextField("Seperate with spaces");
         synsWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridy = 6 + defFieldCount;
         add(synsWord, gbc);
     }
     
     private void showAddAnt() {
-        JLabel antsTitle = new JLabel();
+        antsTitle = new JLabel();
         antsTitle.setText("Antonyms");
         antsTitle.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
         gbc.gridy = 7 + defFieldCount;
         add(antsTitle, gbc);
         
-        JTextField antsWord = new JTextField("Seperate with spaces");
+        antsWord = new JTextField("Seperate with spaces");
         antsWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridy = 8 + defFieldCount;
         add(antsWord, gbc);
@@ -87,11 +94,21 @@ public class Window extends JPanel implements ActionListener{
         add(addWord, gbc);
         
         showAddDef();
+        showAddSyn();
+        showAddAnt();
+        showAddSubmit();
         
         return winWord;
     }
     
-    private int showAddDef() {
+    private void showAddSubmit() {        
+        submit = new JButton("Submit");
+        gbc.gridy = 9 + defFieldCount;
+        submit.addActionListener(this);
+        add(submit, gbc);
+    }
+    
+    private void showAddDef() {
         JLabel defTitle = new JLabel();
         defTitle.setText("Definitions");
         defTitle.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
@@ -100,15 +117,12 @@ public class Window extends JPanel implements ActionListener{
         add(defTitle, gbc);
                    
         JButton addDefBtn = new JButton("+");
-        //addDefBtn.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridx = 1;
         gbc.gridy = 4;
         addDefBtn.addActionListener(this);
         add(addDefBtn, gbc);
         
         addDefFeild();
-        
-        return 6;
     }
     
     private void addDefFeild() {
@@ -122,6 +136,8 @@ public class Window extends JPanel implements ActionListener{
         defFieldCount++;
         String[] partsOfSpeech = {"noun", "verb", "adjective", "adverb", "pronoun", "preposition", "conjunction", "interjection", "determiner"};
         JComboBox addPOS = new JComboBox(partsOfSpeech);
+        //possibly not needed?
+        addPOS.addItemListener(this);
         gbc.gridy = 4 + defFieldCount;
         add(addPOS, gbc);
     }
@@ -253,16 +269,34 @@ public class Window extends JPanel implements ActionListener{
         return ((defs.length * 2) + 2);
     }
 
+    private void deleteAddStuff() {
+        remove(synsTitle);
+        remove(synsWord);
+        remove(antsTitle);
+        remove(antsWord);
+        remove(submit);
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton clicked = (JButton) e.getSource();
         switch (clicked.getText()) {
             case "+":
+                deleteAddStuff();
                 addDefFeild();
                 showAddSyn();
                 showAddAnt();
+                showAddSubmit();
                 break;
+            case "Submit":
+                System.out.println("Submit");
         }
         revalidate();
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 }

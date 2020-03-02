@@ -10,7 +10,6 @@ import javax.swing.event.ListSelectionListener;
 public class Toolbar extends JPanel {
     
     private Word[] tbWords;
-    private String selection;
     private JList wordsList;
     private JButton addButton;
     private JButton deleteButton;
@@ -49,13 +48,11 @@ public class Toolbar extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         
         addButton = new JButton("Add");
-        //addButton.addActionListener(this);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(addButton, gbc);
         deleteButton = new JButton("Delete");
-        //deleteButton.addActionListener(this);
         gbc.gridx = 1;
         add(deleteButton, gbc);
         
@@ -66,12 +63,10 @@ public class Toolbar extends JPanel {
         add(search, gbc);
         
         ascButton = new JButton("Asc");
-        //ascButton.addActionListener(this);
         gbc.gridy = 2;
         gbc.gridwidth = 1;
         add(ascButton, gbc);
         descButton = new JButton("Desc");
-        //descButton.addActionListener(this);
         gbc.gridx = 1;
         add(descButton, gbc);
         
@@ -80,7 +75,6 @@ public class Toolbar extends JPanel {
     }
     
     public void makeWords(GridBagConstraints gbc) {
-        //JList can sort itself
         wordsList = new JList(Utils.parseWords(tbWords));
         gbc.gridy = 3;
         gbc.gridx = 0;
@@ -88,20 +82,4 @@ public class Toolbar extends JPanel {
         add(wordsList, gbc);
         setVisible(true);
     }
-    
-    
-//    public void actionPerformed(ActionEvent e) {
-//        JButton clicked = (JButton) e.getSource();
-//        switch (clicked.getText()) {
-//            case "Asc":
-//                setTBWords(Utils.sortWords(tbWords));
-//                initComponents();
-//                break;
-//            case "Desc":
-//                setTBWords(Utils.sortWordsDesc(tbWords));
-//                initComponents();
-//                break;
-//            default:
-//        }
-//    }
 }
