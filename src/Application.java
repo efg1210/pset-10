@@ -1,16 +1,29 @@
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
+
+import javax.swing.JButton;
+
 import com.google.gson.*;
 
-public class Application {
+public class Application implements ActionListener {
     
     private Word[] words;
     private Display display;
     
+    private JButton appAddButton;
+    private JButton appDeleteButton;
+    private JButton submit;
+    
     public Application() {
         getWordsFile();
         display = new Display(words);
+        appAddButton = display.getAddButton();
+        appAddButton.addActionListener(this);
+        appDeleteButton = display.getDeleteButton();
+        appDeleteButton.addActionListener(this);
     }
     
     public void printAll() {
@@ -42,8 +55,11 @@ public class Application {
         }
     }
     
-    public Word[] addWord() {
-        return words;
+    public void addWord(Word newWord) {
+        System.out.println("last in words (1): " + words[words.length]);
+        words = Arrays.copyOf(words, words.length + 1);
+        words[words.length] = newWord;
+        System.out.println("last in words (2): " + words[words.length]);
     }
     
     private void runDisplay() {
@@ -57,5 +73,27 @@ public class Application {
     public static void main(String[] args) {
         Application app = new Application();
         app.runDisplay();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        JButton clicked = (JButton) e.getSource();
+        switch (clicked.getText()) {
+            case "Add":
+                display.addMethod();
+                break;
+            case "Delete":
+                //pop.show();
+                System.out.println("Delete");
+                break;
+            case "Submit":
+                System.out.println("Submit");
+                //Word newWord = display.getWindow().makeWord();
+                System.out.println(display.getWindow().makeWord());
+//                addWord(newWord);
+                break;
+            default:
+        }
     }
 }

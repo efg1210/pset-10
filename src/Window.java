@@ -49,6 +49,10 @@ public class Window extends JPanel implements ActionListener {
         winWord = null;
     }
     
+    public JButton getSubmitBtn() {
+        return submit;
+    }
+    
     private void showAddSyn() {
         synsTitle = new JLabel();
         synsTitle.setText("Synonyms");
@@ -281,7 +285,10 @@ public class Window extends JPanel implements ActionListener {
         remove(submit);
     }
     
-    private void makeWord() {
+    public void makeWord() {
+        
+        System.out.println("make word start");
+        
         String word = addWord.getText();
         
         String[] partsOfSpeech = new String[POSs.size()];
@@ -294,9 +301,18 @@ public class Window extends JPanel implements ActionListener {
             definitions[i] = defs.get(i).getText();
         }
         
-        String[] synonyms = synsWord.getText().split(", ");
-        String[] antonym = antsWord.getText().split(", ");
+        String[] synonyms = null;
+        String[] antonym = null;
         
+        
+        if (!synsWord.getText().equals("Seperate with a comma and a space")) {
+            synonyms = synsWord.getText().split(", ");
+        }
+        
+        if (!synsWord.getText().equals("Seperate with a comma and a space")) {
+            antonym = antsWord.getText().split(", ");
+        }
+                
         winWord = new Word(word, partsOfSpeech, definitions, synonyms, antonym);
     }
     

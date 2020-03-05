@@ -14,16 +14,36 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     private JScrollPane winScrollPane;
     private String selection = null;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private JList wordsList;
+    
     private Toolbar toolbar;
+    private Window window;
+    private JList wordsList;
+    private JButton displayAddButton;
+    private JButton displayDeleteButton;
     
     public Display(Word[] words) {
         this.displayWords = words;
         initComponents();
     }
     
+    public JButton getAddButton() {
+        return displayAddButton;
+    }
+    
+    public JButton getDeleteButton() {
+        return displayDeleteButton;
+    }
+    
     private void setDisplayWords(Word[] words) {
         this.displayWords = words;
+    }
+    
+    public Window getWindow() {
+        return window;
+    }
+    
+    public void setSelection(String newSelection) {
+        selection = newSelection;
     }
     
     private void initComponents() {
@@ -43,7 +63,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     }
     
     private void makeWindow() {
-        Window window = new Window(selection, displayWords);
+        window = new Window(selection, displayWords);
         winScrollPane = new JScrollPane(window);
         winScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         winScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);        
@@ -58,12 +78,10 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         wordsList = toolbar.getJList();
         wordsList.addListSelectionListener(this);
         
-        JButton addButton = toolbar.getAddButton();
-        JButton deleteButton = toolbar.getDeleteButton();
+        displayAddButton = toolbar.getAddButton();
+        displayDeleteButton = toolbar.getDeleteButton();
         JButton ascButton = toolbar.getAscButton();
         JButton descButton = toolbar.getDescButton();
-        addButton.addActionListener(this);
-        deleteButton.addActionListener(this);
         ascButton.addActionListener(this);
         descButton.addActionListener(this);
                 
@@ -77,10 +95,16 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
 
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
-            selection = ((JList) e.getSource()).getSelectedValue().toString();
+            setSelection(((JList) e.getSource()).getSelectedValue().toString());
             remove(winScrollPane);
             makeWindow();
         }
+    }
+    
+    public void addMethod() {
+        remove(winScrollPane);
+        setSelection("Add");
+        makeWindow();
     }
     
     @Override
@@ -100,9 +124,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
                 makeToolbar();
                 break;
             case "Add":
-                remove(winScrollPane);
-                selection = "Add";
-                makeWindow();
+                addMethod();
             case "Delete":
                 //pop.show();
             default:
