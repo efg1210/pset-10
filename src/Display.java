@@ -34,7 +34,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         return displayDeleteButton;
     }
     
-    private void setDisplayWords(Word[] words) {
+    public void setDisplayWords(Word[] words) {
         this.displayWords = words;
     }
     
@@ -60,7 +60,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         setExtendedState(JFrame.MAXIMIZED_BOTH); 
     }
     
-    private void makeWindow() {
+    public void makeWindow() {
         window = new Window(selection, displayWords);
         winScrollPane = new JScrollPane(window);
         winScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -69,7 +69,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         setVisible(true);
     }
     
-    private void makeToolbar() {
+    public void makeToolbar() {
         toolbar = new Toolbar(displayWords);
         toolbar.initComponents();
         

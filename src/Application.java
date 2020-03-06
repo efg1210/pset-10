@@ -20,7 +20,7 @@ public class Application implements ActionListener {
     
     public Application() {
         getWordsFile();
-        display = new Display(getWords());
+        display = new Display(words);
         appAddButton = display.getAddButton();
         appAddButton.addActionListener(this);
         appDeleteButton = display.getDeleteButton();
@@ -28,8 +28,8 @@ public class Application implements ActionListener {
     }
     
     public void printAll() {
-        for (Word word: getWords()) {
-            System.out.println(word.getWord());
+        for (Word word: words) {
+            //System.out.println(word.getWord());
         }
     }
     
@@ -40,7 +40,7 @@ public class Application implements ActionListener {
     public void saveWords() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (Writer writer = new FileWriter(System.getProperty("user.dir") + File.separator + "words.json")) {
-            gson.toJson(getWords(), writer);
+            gson.toJson(words, writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -54,22 +54,25 @@ public class Application implements ActionListener {
         Gson gson = new Gson();
         try (Reader reader = new FileReader(System.getProperty("user.dir") + File.separator + "words.json")) {
             setWords(gson.fromJson(reader, Word[].class));
-            Utils.sortWords(getWords());
+            Utils.sortWords(words);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
     public void addWord(Word newWord) {
-        System.out.println("last in words (1): " + getWords()[getWords().length - 1].getWord());
+        //System.out.println("last in words (1): " + getWords()[getWords().length - 1].getWord());
         Word[] newWordsList = Arrays.copyOf(getWords(), getWords().length + 1);
         newWordsList[newWordsList.length - 1] = newWord;
-        System.out.println("last in words (2): " + newWordsList[newWordsList.length - 1].getWord());
+        //System.out.println("last in words (2): " + newWordsList[newWordsList.length - 1].getWord());
         setWords(newWordsList);
         Utils.sortWords(getWords());
-        for (Word word: getWords()) {
-            System.out.println(word.getWord());
-        }
+        //System.out.println("last in words (2): " + words[words.length - 1].getWord());
+        saveWords();
+        display.setSelection(newWord.getWord());
+        display.setDisplayWords(getWords());
+        display.makeToolbar();
+        display.makeWindow();
     }
     
     private void runDisplay() {
@@ -102,14 +105,14 @@ public class Application implements ActionListener {
                 System.out.println(display.deleteMethod());
                 break;
             case "+":
-                System.out.println("+");
+                //System.out.println("+");
                 display.getWindow().plusButtonPressed();
                 break;
             case "Submit":
-                System.out.println("one");
+                //System.out.println("one");
                 display.getWindow().makeWord();
                 addWord(display.getWindow().getWinWord());
-                System.err.println("done.");
+                //System.err.println("done.");
                 break;
             default: System.out.println(clicked.getText());
         }

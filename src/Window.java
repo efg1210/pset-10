@@ -319,6 +319,13 @@ public class Window extends JPanel {
             antonym = antsWord.getText().split(", ");
         }
         
+        if (synonyms == null) {
+            synonyms = new String[]{""};
+        }
+        if (antonym == null) {
+            antonym = new String[]{""};
+        }
+        
         System.out.println("make word end");
                 
         winWord = new Word(word, partsOfSpeech, definitions, synonyms, antonym);
