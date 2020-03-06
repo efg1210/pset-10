@@ -39,6 +39,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     }
     
     public Window getWindow() {
+        System.out.println("get window");
         return window;
     }
     
@@ -54,9 +55,6 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         
         makeToolbar();
         makeWindow();
-        
-//        PopupFactory pf = new PopupFactory();
-//        pop pop = pf.getPopup(f, p2, 180, 100);
         
         setSize(screenSize.width/2, screenSize.height);
         setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -99,6 +97,16 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
             remove(winScrollPane);
             makeWindow();
         }
+    }
+    
+    public boolean deleteMethod() {
+        int result = JOptionPane.showConfirmDialog(
+            null,
+            "Are you sure you want to delete the word \"" + selection + "\"?",
+            "",
+            JOptionPane.YES_NO_OPTION);
+        System.out.println("result: " + result);
+        return (result == 0) ? true : false;
     }
     
     public void addMethod() {

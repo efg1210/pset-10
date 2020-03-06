@@ -14,7 +14,7 @@ import java.util.Arrays;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class Window extends JPanel implements ActionListener {
+public class Window extends JPanel {
 
     private Word winWord;
     private GridBagConstraints gbc;
@@ -28,6 +28,7 @@ public class Window extends JPanel implements ActionListener {
     private JLabel antsTitle;
     private JTextField antsWord;
     private JButton submit;
+    private JButton plusButton;
     
     public Window(String tbWord, Word[] tbWords) {
         setLayout(new GridBagLayout());
@@ -53,7 +54,12 @@ public class Window extends JPanel implements ActionListener {
         return submit;
     }
     
+    public JButton getPlusBtn() {
+        return plusButton;
+    }
+    
     public Word getWinWord() {
+        System.out.println("get win word");
         return winWord;
     }
     
@@ -114,7 +120,7 @@ public class Window extends JPanel implements ActionListener {
     private void showAddSubmit() {        
         submit = new JButton("Submit");
         gbc.gridy = 9 + defFieldCount;
-        submit.addActionListener(this);
+        //submit.addActionListener(this);
         add(submit, gbc);
     }
     
@@ -126,11 +132,11 @@ public class Window extends JPanel implements ActionListener {
         gbc.gridy = 4;
         add(defTitle, gbc);
                    
-        JButton addDefBtn = new JButton("+");
+        plusButton = new JButton("+");
         gbc.gridx = 1;
         gbc.gridy = 4;
-        addDefBtn.addActionListener(this);
-        add(addDefBtn, gbc);
+        //addDefBtn.addActionListener(this);
+        add(plusButton, gbc);
         
         addDefFeild();
     }
@@ -316,30 +322,15 @@ public class Window extends JPanel implements ActionListener {
         System.out.println("make word end");
                 
         winWord = new Word(word, partsOfSpeech, definitions, synonyms, antonym);
+        System.out.println("after win word");
     }
     
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JButton clicked = (JButton) e.getSource();
-        switch (clicked.getText()) {
-            case "+":
-                deleteAddStuff();
-                addDefFeild();
-                showAddSyn();
-                showAddAnt();
-                showAddSubmit();
-                break;
-            case "Submit":
-                System.out.println("Submit");
-                makeWord();
-                //word
-        }
+    public void plusButtonPressed() {
+        deleteAddStuff();
+        addDefFeild();
+        showAddSyn();
+        showAddAnt();
+        showAddSubmit();
         revalidate();
     }
-
-//    @Override
-//    public void itemStateChanged(ItemEvent e) {
-//        // TODO Auto-generated method stub
-//        
-//    }
 }

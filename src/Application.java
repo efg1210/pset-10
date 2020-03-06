@@ -16,6 +16,7 @@ public class Application implements ActionListener {
     private JButton appAddButton;
     private JButton appDeleteButton;
     private JButton submit;
+    private JButton plus;
     
     public Application() {
         getWordsFile();
@@ -56,10 +57,10 @@ public class Application implements ActionListener {
     }
     
     public void addWord(Word newWord) {
-        System.out.println("last in words (1): " + words[words.length]);
-        words = Arrays.copyOf(words, words.length + 1);
-        words[words.length] = newWord;
-        System.out.println("last in words (2): " + words[words.length]);
+        System.out.println("last in words (1): " + words[words.length - 1].getWord());
+        Word[] newWordsList = Arrays.copyOf(words, words.length + 1);
+        newWordsList[newWordsList.length - 1] = newWord;
+        System.out.println("last in words (2): " + newWordsList[newWordsList.length - 1].getWord());
     }
     
     private void runDisplay() {
@@ -82,18 +83,27 @@ public class Application implements ActionListener {
         switch (clicked.getText()) {
             case "Add":
                 display.addMethod();
+                submit = display.getWindow().getSubmitBtn();
+                submit.addActionListener(this);
+                plus = display.getWindow().getPlusBtn();
+                plus.addActionListener(this);
                 break;
             case "Delete":
                 //pop.show();
                 System.out.println("Delete");
+                System.out.println(display.deleteMethod());
+                break;
+            case "+":
+                System.out.println("+");
+                display.getWindow().plusButtonPressed();
                 break;
             case "Submit":
-                System.out.println("Submit");
+                System.out.println("one");
                 display.getWindow().makeWord();
-                System.out.println("Submit 2");
                 addWord(display.getWindow().getWinWord());
+                System.err.println("done.");
                 break;
-            default:
+            default: System.out.println(clicked.getText());
         }
     }
 }
