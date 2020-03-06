@@ -89,9 +89,9 @@ public class Application implements ActionListener {
                 break;
             case "Submit":
                 System.out.println("Submit");
-                //Word newWord = display.getWindow().makeWord();
-                System.out.println(display.getWindow().makeWord());
-//                addWord(newWord);
+                display.getWindow().makeWord();
+                System.out.println("Submit 2");
+                addWord(display.getWindow().getWinWord());
                 break;
             default:
         }
