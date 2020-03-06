@@ -71,6 +71,8 @@ public class Application implements ActionListener {
         saveWords();
         display.setSelection(newWord.getWord());
         display.setDisplayWords(getWords());
+        display.remove(display.getTBScrollPane());
+        display.remove(display.getWinScrollPane());
         display.makeToolbar();
         display.makeWindow();
     }

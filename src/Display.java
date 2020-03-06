@@ -115,6 +115,14 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         makeWindow();
     }
     
+    public JScrollPane getTBScrollPane() {
+        return tbScrollPane;
+    }
+    
+    public JScrollPane getWinScrollPane() {
+        return winScrollPane;
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         wordsList = toolbar.getJList();

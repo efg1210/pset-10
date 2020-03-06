@@ -59,7 +59,7 @@ public class Window extends JPanel {
     }
     
     public Word getWinWord() {
-        System.out.println("get win word");
+        //System.out.println("get win word");
         return winWord;
     }
     
