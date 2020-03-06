@@ -20,7 +20,7 @@ public class Application implements ActionListener {
     
     public Application() {
         getWordsFile();
-        display = new Display(words);
+        display = new Display(getWords());
         appAddButton = display.getAddButton();
         appAddButton.addActionListener(this);
         appDeleteButton = display.getDeleteButton();
@@ -28,39 +28,48 @@ public class Application implements ActionListener {
     }
     
     public void printAll() {
-        for (Word word: words) {
+        for (Word word: getWords()) {
             System.out.println(word.getWord());
         }
+    }
+    
+    public void setWords(Word[] words) {
+        this.words = words;
     }
     
     public void saveWords() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (Writer writer = new FileWriter(System.getProperty("user.dir") + File.separator + "words.json")) {
-            gson.toJson(words, writer);
+            gson.toJson(getWords(), writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
-    public Word[] getWordsObj() {
+    public Word[] getWords() {
         return this.words;
     }
     
     private void getWordsFile() {
         Gson gson = new Gson();
         try (Reader reader = new FileReader(System.getProperty("user.dir") + File.separator + "words.json")) {
-            this.words = gson.fromJson(reader, Word[].class);
-            Utils.sortWords(words);
+            setWords(gson.fromJson(reader, Word[].class));
+            Utils.sortWords(getWords());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
     public void addWord(Word newWord) {
-        System.out.println("last in words (1): " + words[words.length - 1].getWord());
-        Word[] newWordsList = Arrays.copyOf(words, words.length + 1);
+        System.out.println("last in words (1): " + getWords()[getWords().length - 1].getWord());
+        Word[] newWordsList = Arrays.copyOf(getWords(), getWords().length + 1);
         newWordsList[newWordsList.length - 1] = newWord;
         System.out.println("last in words (2): " + newWordsList[newWordsList.length - 1].getWord());
+        setWords(newWordsList);
+        Utils.sortWords(getWords());
+        for (Word word: getWords()) {
+            System.out.println(word.getWord());
+        }
     }
     
     private void runDisplay() {
@@ -89,7 +98,6 @@ public class Application implements ActionListener {
                 plus.addActionListener(this);
                 break;
             case "Delete":
-                //pop.show();
                 System.out.println("Delete");
                 System.out.println(display.deleteMethod());
                 break;

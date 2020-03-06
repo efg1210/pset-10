@@ -298,7 +298,7 @@ public class Window extends JPanel {
     public void makeWord() {
         System.out.println("make word start");
         
-        String word = addWord.getText();
+        String word = addWord.getText().toLowerCase();
         
         String[] partsOfSpeech = new String[POSs.size()];
         String[] definitions = new String[defs.size()];
