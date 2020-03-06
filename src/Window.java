@@ -204,7 +204,7 @@ public class Window extends JPanel {
         String[] ants = winWord.getAnt();
         if (ants.length > 1) {
             title.setText("Antonyms");
-        } else if (ants.length == 1) {
+        } else if (ants.length == 1 && !ants[0].equals("")) {
             title.setText("Antonym");
         }
         title.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
@@ -228,7 +228,7 @@ public class Window extends JPanel {
         String[] syns = winWord.getSyn();
         if (syns.length > 1) {
             title.setText("Synonyms");
-        } else if (syns.length == 1) {
+        } else if (syns.length == 1 && !syns[0].equals("")) {
             title.setText("Synonym");
         }
         title.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
