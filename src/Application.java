@@ -60,14 +60,11 @@ public class Application implements ActionListener {
         }
     }
     
-    public void addWord(Word newWord) {
-        //System.out.println("last in words (1): " + getWords()[getWords().length - 1].getWord());
+    private void addWord(Word newWord) {
         Word[] newWordsList = Arrays.copyOf(getWords(), getWords().length + 1);
         newWordsList[newWordsList.length - 1] = newWord;
-        //System.out.println("last in words (2): " + newWordsList[newWordsList.length - 1].getWord());
         setWords(newWordsList);
         Utils.sortWords(getWords());
-        //System.out.println("last in words (2): " + words[words.length - 1].getWord());
         saveWords();
         display.setSelection(newWord.getWord());
         display.setDisplayWords(getWords());
@@ -75,6 +72,24 @@ public class Application implements ActionListener {
         display.remove(display.getWinScrollPane());
         display.makeToolbar();
         display.makeWindow();
+    }
+    
+    private void deleteWord() {
+        String removed = display.getSelection();
+        String[] onlyWords = Utils.parseWords(getWords());
+        int index = Utils.indexOf(removed, onlyWords);
+        Word[] wordsCopy = Arrays.copyOf(getWords(), getWords().length);
+        Word temp = wordsCopy[index];        
+        if (index == wordsCopy.length - 1) {
+            wordsCopy = Arrays.copyOf(getWords(), getWords().length - 1);
+        } else {
+            for (int i = index + 1; i < wordsCopy.length; i++) {
+                wordsCopy[i - 1] = wordsCopy[i];
+            }
+            wordsCopy[wordsCopy.length - 1] = temp;
+            wordsCopy = Arrays.copyOf(wordsCopy, wordsCopy.length - 1);
+        }
+        setWords(wordsCopy);
     }
     
     private void runDisplay() {
@@ -104,7 +119,9 @@ public class Application implements ActionListener {
                 break;
             case "Delete":
                 System.out.println("Delete");
-                System.out.println(display.deleteMethod());
+                if (display.deleteMethod()) {
+                    deleteWord();
+                }
                 break;
             case "+":
                 //System.out.println("+");

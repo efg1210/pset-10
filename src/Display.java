@@ -14,7 +14,6 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     private JScrollPane winScrollPane;
     private String selection = null;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    
     private Toolbar toolbar;
     private Window window;
     private JList wordsList;
@@ -45,6 +44,10 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     
     public void setSelection(String newSelection) {
         selection = newSelection;
+    }
+    
+    public String getSelection() {
+        return selection;
     }
     
     private void initComponents() {

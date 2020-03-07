@@ -1,6 +1,7 @@
 import java.util.Arrays;
 
 public class Utils {
+    
     public static String[] parseWords(Word[] words) {
         String[] onlyWords = new String[words.length];
         for (int i = 0; i < words.length; i++) {
@@ -12,6 +13,13 @@ public class Utils {
     public static Word[] sortWords(Word[] words) {
         Arrays.sort(words, (a, b) -> a.getWord().compareTo(b.getWord()));
         return words;
+    }
+    
+    public static int indexOf(String target, String[] words) {
+        for (int i = 0; i < words.length; i++)
+            if (words[i].equals(target))
+                return i;
+        return -1;
     }
     
     public static Word[] sortWordsDesc(Word[] words) {
