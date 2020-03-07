@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
@@ -56,14 +59,60 @@ public class Toolbar extends JPanel {
         gbc.gridx = 1;
         add(deleteButton, gbc);
         
-        JTextField search = new JTextField("Search");
+        JLabel searchTitle = new JLabel("Search:");
         gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        add(searchTitle, gbc);
+        
+        JTextField search = new JTextField("");
+        search.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                search();
+            }
+            public void removeUpdate(DocumentEvent e) {
+                search();
+            }
+            public void insertUpdate(DocumentEvent e) {
+                search();
+            }
+
+            public void search() {
+                String searchTerm = search.getText();
+                ArrayList<Word> filteredWords = new ArrayList<Word>();
+                ArrayList<Integer> sort = new ArrayList<Integer>();
+                ArrayList<Integer> sorted = new ArrayList<Integer>();
+                
+                for (Word word: tbWords) {
+                    if (word.getWord().contains(searchTerm)) {
+                        filteredWords.add(word);
+                        sort.add(word.getWord().indexOf(searchTerm));
+                        sorted.add(word.getWord().indexOf(searchTerm));
+                    }
+                }
+                Collections.sort(sorted);
+                
+                ArrayList<Word> sortedWords = new ArrayList<Word>();
+                while(filteredWords.size() > 0) {
+                    for (int i = 0; i < sort.size(); i++) {
+                        if (sorted.get(0) == sort.get(i)) {
+                            sortedWords.add(filteredWords.get(i));
+                            sorted.remove(0);
+                            sort.remove(i);
+                            filteredWords.remove(i);
+                        }
+                    }
+                }
+            }
+        });
+        
+        gbc.gridx = 0;
+        gbc.gridy = 2;
         gbc.gridwidth = 2;
         add(search, gbc);
         
         ascButton = new JButton("Asc");
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.gridwidth = 1;
         add(ascButton, gbc);
         descButton = new JButton("Desc");
@@ -76,7 +125,7 @@ public class Toolbar extends JPanel {
     
     public void makeWords(GridBagConstraints gbc) {
         wordsList = new JList(Utils.parseWords(tbWords));
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         add(wordsList, gbc);
