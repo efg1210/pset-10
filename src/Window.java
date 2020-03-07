@@ -30,6 +30,9 @@ public class Window extends JPanel {
     private JButton submit;
     private JButton plusButton;
     
+    private String savedSyns;
+    private String savedAnts;
+    
     public Window(String tbWord, Word[] tbWords) {
         setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
@@ -70,7 +73,11 @@ public class Window extends JPanel {
         gbc.gridy = 5 + defFieldCount;
         add(synsTitle, gbc);
         
-        synsWord = new JTextField("Seperate with a comma and a space");
+        if (savedSyns == null) {
+            synsWord = new JTextField("Seperate with a comma and a space");
+        } else {
+            synsWord = new JTextField(savedSyns);
+        }
         synsWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridy = 6 + defFieldCount;
         add(synsWord, gbc);
@@ -83,7 +90,11 @@ public class Window extends JPanel {
         gbc.gridy = 7 + defFieldCount;
         add(antsTitle, gbc);
         
-        antsWord = new JTextField("Seperate with a comma and a space");
+        if (savedAnts == null) {
+            antsWord = new JTextField("Seperate with a comma and a space");
+        } else {
+            antsWord = new JTextField(savedAnts);
+        }
         antsWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridy = 8 + defFieldCount;
         add(antsWord, gbc);
@@ -91,6 +102,8 @@ public class Window extends JPanel {
     
     
     private Word showAdd() {
+        savedSyns = null;
+        savedAnts = null;
         JLabel title = new JLabel();
         title.setText("ADD");
         title.setFont(new Font(getFont().getName(), getFont().getStyle(), 50));
@@ -289,20 +302,18 @@ public class Window extends JPanel {
 
     private void deleteAddStuff() {
         remove(synsTitle);
+        savedSyns = synsWord.getText();
         remove(synsWord);
         remove(antsTitle);
+        savedAnts = antsWord.getText();
         remove(antsWord);
         remove(submit);
     }
     
-    public void makeWord() {
-        System.out.println("make word start");
-        
+    public void makeWord() {        
         String word = addWord.getText().toLowerCase();
-        
         String[] partsOfSpeech = new String[POSs.size()];
         String[] definitions = new String[defs.size()];
-        
         for (int i = 0; i < POSs.size(); i++) {
             partsOfSpeech[i] = (String) POSs.get(i).getSelectedItem();
         }
@@ -318,18 +329,13 @@ public class Window extends JPanel {
         if (!antsWord.getText().equals("Seperate with a comma and a space")) {
             antonym = antsWord.getText().split(", ");
         }
-        
         if (synonyms == null) {
             synonyms = new String[]{""};
         }
         if (antonym == null) {
             antonym = new String[]{""};
-        }
-        
-        System.out.println("make word end");
-                
+        }            
         winWord = new Word(word, partsOfSpeech, definitions, synonyms, antonym);
-        System.out.println("after win word");
     }
     
     public void plusButtonPressed() {
