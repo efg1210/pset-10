@@ -27,12 +27,6 @@ public class Application implements ActionListener {
         appDeleteButton.addActionListener(this);
     }
     
-    public void printAll() {
-        for (Word word: words) {
-            //System.out.println(word.getWord());
-        }
-    }
-    
     public void setWords(Word[] words) {
         this.words = words;
     }
@@ -132,14 +126,11 @@ public class Application implements ActionListener {
                 }
                 break;
             case "+":
-                //System.out.println("+");
                 display.getWindow().plusButtonPressed();
                 break;
             case "Submit":
-                //System.out.println("one");
                 display.getWindow().makeWord();
                 addWord(display.getWindow().getWinWord());
-                //System.err.println("done.");
                 break;
             default: System.out.println(clicked.getText());
         }

@@ -38,7 +38,6 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     }
     
     public Window getWindow() {
-        System.out.println("get window");
         return window;
     }
     
@@ -108,7 +107,6 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
             "Are you sure you want to delete the word \"" + selection + "\"?",
             "",
             JOptionPane.YES_NO_OPTION);
-        System.out.println("result: " + result);
         return (result == 0) ? true : false;
     }
     
