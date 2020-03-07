@@ -16,9 +16,11 @@ public class Utils {
     }
     
     public static int indexOf(String target, String[] words) {
-        for (int i = 0; i < words.length; i++)
-            if (words[i].equals(target))
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].equals(target)) {
                 return i;
+            }
+        }
         return -1;
     }
     

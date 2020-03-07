@@ -90,6 +90,13 @@ public class Application implements ActionListener {
             wordsCopy = Arrays.copyOf(wordsCopy, wordsCopy.length - 1);
         }
         setWords(wordsCopy);
+        saveWords();
+        display.setSelection(null);
+        display.setDisplayWords(getWords());
+        display.remove(display.getTBScrollPane());
+        display.remove(display.getWinScrollPane());
+        display.makeToolbar();
+        display.makeWindow();
     }
     
     private void runDisplay() {
@@ -118,9 +125,10 @@ public class Application implements ActionListener {
                 plus.addActionListener(this);
                 break;
             case "Delete":
-                System.out.println("Delete");
-                if (display.deleteMethod()) {
-                    deleteWord();
+                if (Arrays.asList(Utils.parseWords(getWords())).contains(display.getSelection())) {
+                    if (display.deleteMethod()) {
+                        deleteWord();
+                    }
                 }
                 break;
             case "+":
