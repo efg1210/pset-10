@@ -114,7 +114,7 @@ public class Display extends JFrame implements ListSelectionListener, DocumentLi
     }
 
     private void search() {
-        String searchTerm = toolbar.getSearch().getText();
+        String searchTerm = toolbar.getSearch().getText().toLowerCase();
         ArrayList<Word> filteredWords = new ArrayList<Word>();
         ArrayList<Integer> sort = new ArrayList<Integer>();
         ArrayList<Integer> sorted = new ArrayList<Integer>();
