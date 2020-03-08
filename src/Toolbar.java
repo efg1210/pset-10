@@ -1,8 +1,5 @@
 import java.awt.*;
-import java.util.*;
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 @SuppressWarnings("serial")
 public class Toolbar extends JPanel {
