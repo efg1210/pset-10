@@ -134,9 +134,13 @@ public class Application implements ActionListener {
                 break;
             case "+":
                 display.getWindow().plusButtonPressed();
+                submit = display.getWindow().getSubmitBtn();
+                submit.addActionListener(this);
                 break;
             case "Submit":
+                System.out.println("in submit at all");
                 if (display.getWindow().makeWord()) {
+                    System.out.println("inside submit if statement");
                     addWord(display.getWindow().getWinWord());
                 }
                 break;
