@@ -154,7 +154,7 @@ public class Application implements ActionListener {
                 submit.addActionListener(this);
                 break;
             case "Submit":
-                if (display.getWindow().makeWord()) {
+                if (display.getWindow().makeWord(getWords())) {
                     addWord(display.getWindow().getWinWord());
                 }
                 break;
