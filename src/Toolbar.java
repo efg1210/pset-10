@@ -1,13 +1,8 @@
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 @SuppressWarnings("serial")
 public class Toolbar extends JPanel {
@@ -18,13 +13,11 @@ public class Toolbar extends JPanel {
     private JButton deleteButton;
     private JButton ascButton;
     private JButton descButton;
+    private JTextField search;
+    private GridBagConstraints gbc = new GridBagConstraints();
     
     public Toolbar(Word[] displayWords) {
         tbWords = displayWords;
-    }
-    
-    public JList getJList() {
-        return wordsList;
     }
     
     public JButton getAddButton() {
@@ -43,6 +36,18 @@ public class Toolbar extends JPanel {
         return descButton;
     }
     
+    public JTextField getSearch() {
+        return search;
+    }
+    
+    public Word[] getTBWords() {
+        return tbWords;
+    }
+
+    public JList getWordsList() {
+        return wordsList;
+    }
+    
     public void setTBWords(Word[] tbWords) {
         this.tbWords = tbWords;
     }
@@ -52,7 +57,7 @@ public class Toolbar extends JPanel {
         revalidate();
         
         setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        //GridBagConstraints gbc = new GridBagConstraints();
         
         addButton = new JButton("Add");
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -69,55 +74,55 @@ public class Toolbar extends JPanel {
         gbc.gridwidth = 2;
         add(searchTitle, gbc);
         
-        JTextField search = new JTextField("");
-        search.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                search();
-            }
-            public void removeUpdate(DocumentEvent e) {
-                search();
-            }
-            public void insertUpdate(DocumentEvent e) {
-                search();
-            }
-
-            public void search() {
-                String searchTerm = search.getText();
-                ArrayList<Word> filteredWords = new ArrayList<Word>();
-                ArrayList<Integer> sort = new ArrayList<Integer>();
-                ArrayList<Integer> sorted = new ArrayList<Integer>();
-                
-                for (Word word: tbWords) {
-                    if (word.getWord().contains(searchTerm)) {
-                        filteredWords.add(word);
-                        sort.add(word.getWord().indexOf(searchTerm));
-                        sorted.add(word.getWord().indexOf(searchTerm));
-                    }
-                }
-                Collections.sort(sorted);
-                
-                ArrayList<Word> sortedWords = new ArrayList<Word>();
-                while(filteredWords.size() > 0) {
-                    for (int i = 0; i < sort.size(); i++) {
-                        if (sorted.get(0) == sort.get(i)) {
-                            sortedWords.add(filteredWords.get(i));
-                            sorted.remove(0);
-                            sort.remove(i);
-                            filteredWords.remove(i);
-                        }
-                    }
-                }
-                Word[] outputWords = new Word[sortedWords.size()];
-                for (int i = 0; i < outputWords.length; i++) {
-                    outputWords[i] = sortedWords.get(i);
-                }
-                setTBWords(outputWords);
-                remove(wordsList);
-                makeWords(gbc);
-                revalidate();
-                //initComponents();
-            }
-        });
+        search = new JTextField("");
+//        search.getDocument().addDocumentListener(new DocumentListener() {
+//            public void changedUpdate(DocumentEvent e) {
+//                search();
+//            }
+//            public void removeUpdate(DocumentEvent e) {
+//                search();
+//            }
+//            public void insertUpdate(DocumentEvent e) {
+//                search();
+//            }
+//
+//            public void search() {
+//                String searchTerm = search.getText();
+//                ArrayList<Word> filteredWords = new ArrayList<Word>();
+//                ArrayList<Integer> sort = new ArrayList<Integer>();
+//                ArrayList<Integer> sorted = new ArrayList<Integer>();
+//                
+//                for (Word word: tbWords) {
+//                    if (word.getWord().contains(searchTerm)) {
+//                        filteredWords.add(word);
+//                        sort.add(word.getWord().indexOf(searchTerm));
+//                        sorted.add(word.getWord().indexOf(searchTerm));
+//                    }
+//                }
+//                Collections.sort(sorted);
+//                
+//                ArrayList<Word> sortedWords = new ArrayList<Word>();
+//                while(filteredWords.size() > 0) {
+//                    for (int i = 0; i < sort.size(); i++) {
+//                        if (sorted.get(0) == sort.get(i)) {
+//                            sortedWords.add(filteredWords.get(i));
+//                            sorted.remove(0);
+//                            sort.remove(i);
+//                            filteredWords.remove(i);
+//                        }
+//                    }
+//                }
+//                Word[] outputWords = new Word[sortedWords.size()];
+//                for (int i = 0; i < outputWords.length; i++) {
+//                    outputWords[i] = sortedWords.get(i);
+//                }
+//                setTBWords(outputWords);
+//                remove(wordsList);
+//                makeWords();
+//                revalidate();
+//                //initComponents();
+//            }
+//        });
         
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -132,11 +137,11 @@ public class Toolbar extends JPanel {
         gbc.gridx = 1;
         add(descButton, gbc);
         
-        makeWords(gbc);
+        makeWords();
         setVisible(true);
     }
     
-    public void makeWords(GridBagConstraints gbc) {
+    public void makeWords() {
         wordsList = new JList(Utils.parseWords(tbWords));
         gbc.gridy = 4;
         gbc.gridx = 0;

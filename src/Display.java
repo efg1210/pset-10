@@ -1,12 +1,16 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class Display extends JFrame implements ListSelectionListener, ActionListener {
+public class Display extends JFrame implements ListSelectionListener, ActionListener, DocumentListener {
     private static final long serialVersionUID = 1L;
     
     private Word[] displayWords;
@@ -55,7 +59,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         setTitle("eDictionary");
         setLayout(new BorderLayout());
         
-        makeToolbar();
+        makeToolbar(displayWords);
         makeWindow();
         
         setSize(screenSize.width/2, screenSize.height);
@@ -71,12 +75,12 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         setVisible(true);
     }
     
-    public void makeToolbar() {
-        toolbar = new Toolbar(displayWords);
+    public void makeToolbar(Word[] toolbarWords) {
+        toolbar = new Toolbar(toolbarWords);
         toolbar.initComponents();
         
-        wordsList = toolbar.getJList();
-        wordsList.addListSelectionListener(this);
+//        wordsList = toolbar.getWordsList();
+//        wordsList.addListSelectionListener(this);
         
         displayAddButton = toolbar.getAddButton();
         displayDeleteButton = toolbar.getDeleteButton();
@@ -84,6 +88,11 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         JButton descButton = toolbar.getDescButton();
         ascButton.addActionListener(this);
         descButton.addActionListener(this);
+        
+        toolbar.getSearch().getDocument().addDocumentListener(this);
+        
+        wordsList = toolbar.getWordsList();
+        wordsList.addListSelectionListener(this);
                 
         tbScrollPane = new JScrollPane(toolbar);
         tbScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -93,6 +102,46 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         setVisible(true);
     }
 
+    private void search() {
+        String searchTerm = toolbar.getSearch().getText();
+        ArrayList<Word> filteredWords = new ArrayList<Word>();
+        ArrayList<Integer> sort = new ArrayList<Integer>();
+        ArrayList<Integer> sorted = new ArrayList<Integer>();
+        
+        for (Word word: toolbar.getTBWords()) {
+            if (word.getWord().contains(searchTerm)) {
+                filteredWords.add(word);
+                sort.add(word.getWord().indexOf(searchTerm));
+                sorted.add(word.getWord().indexOf(searchTerm));
+            }
+        }
+        Collections.sort(sorted);
+        
+        ArrayList<Word> sortedWords = new ArrayList<Word>();
+        while(filteredWords.size() > 0) {
+            for (int i = 0; i < sort.size(); i++) {
+                if (sorted.get(0) == sort.get(i)) {
+                    sortedWords.add(filteredWords.get(i));
+                    sorted.remove(0);
+                    sort.remove(i);
+                    filteredWords.remove(i);
+                }
+            }
+        }
+        Word[] outputWords = new Word[sortedWords.size()];
+        for (int i = 0; i < outputWords.length; i++) {
+            outputWords[i] = sortedWords.get(i);
+        }
+        toolbar.setTBWords(outputWords);
+        toolbar.remove(toolbar.getWordsList());
+        toolbar.makeWords();
+        
+        wordsList = toolbar.getWordsList();
+        wordsList.addListSelectionListener(this);
+        
+        toolbar.revalidate();
+    }
+    
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             setSelection(((JList) e.getSource()).getSelectedValue().toString());
@@ -126,19 +175,19 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        wordsList = toolbar.getJList();
+        wordsList = toolbar.getWordsList();
         wordsList.addListSelectionListener(this);        
         JButton clicked = (JButton) e.getSource();
         switch (clicked.getText()) {
             case "Asc":
                 setDisplayWords(Utils.sortWords(displayWords));
                 remove(tbScrollPane);
-                makeToolbar();
+                makeToolbar(displayWords);
                 break;
             case "Desc":
                 setDisplayWords(Utils.sortWordsDesc(displayWords));
                 remove(tbScrollPane);
-                makeToolbar();
+                makeToolbar(displayWords);
                 break;
             case "Add":
                 addMethod();
@@ -146,5 +195,23 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
                 //pop.show();
             default:
         }
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        // TODO Auto-generated method stub
+        search();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        // TODO Auto-generated method stub
+        search();
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        // TODO Auto-generated method stub
+        search();
     }
 }

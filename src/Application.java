@@ -64,7 +64,7 @@ public class Application implements ActionListener {
         display.setDisplayWords(getWords());
         display.remove(display.getTBScrollPane());
         display.remove(display.getWinScrollPane());
-        display.makeToolbar();
+        display.makeToolbar(getWords());
         display.makeWindow();
     }
     
@@ -89,7 +89,7 @@ public class Application implements ActionListener {
         display.setDisplayWords(getWords());
         display.remove(display.getTBScrollPane());
         display.remove(display.getWinScrollPane());
-        display.makeToolbar();
+        display.makeToolbar(getWords());
         display.makeWindow();
     }
     
