@@ -27,6 +27,10 @@ public class Application implements ActionListener {
         appAddButton.addActionListener(this);
         appDeleteButton = display.getDeleteButton();
         appDeleteButton.addActionListener(this);
+        appAscButton = display.getAscButton();
+        appAscButton.addActionListener(this);
+        appDescButton = display.getDescButton();
+        appDescButton.addActionListener(this);
     }
     
     public void setWords(Word[] words) {
