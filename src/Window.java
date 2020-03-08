@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
@@ -19,8 +21,10 @@ public class Window extends JPanel {
     private ArrayList<JComboBox> POSs = new ArrayList<JComboBox>();
     private JLabel synsTitle;
     private JTextField synsWord;
+    private JLabel synsInstructions;
     private JLabel antsTitle;
     private JTextField antsWord;
+    private JLabel antsInstructions;
     private JButton submit;
     private JButton plusButton;
     
@@ -66,13 +70,19 @@ public class Window extends JPanel {
         gbc.gridy = 5 + defFieldCount;
         add(synsTitle, gbc);
         
+        synsInstructions = new JLabel();
+        synsInstructions.setText("Seperate with a comma and a space");
+        synsInstructions.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+        gbc.gridy = 6 + defFieldCount;
+        add(synsInstructions, gbc);
+        
         if (savedSyns == null) {
-            synsWord = new JTextField("Seperate with a comma and a space");
+            synsWord = new JTextField("");
         } else {
             synsWord = new JTextField(savedSyns);
         }
         synsWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
-        gbc.gridy = 6 + defFieldCount;
+        gbc.gridy = 7 + defFieldCount;
         add(synsWord, gbc);
     }
     
@@ -80,16 +90,22 @@ public class Window extends JPanel {
         antsTitle = new JLabel();
         antsTitle.setText("Antonyms");
         antsTitle.setFont(new Font(getFont().getName(), getFont().getStyle(), 30));
-        gbc.gridy = 7 + defFieldCount;
+        gbc.gridy = 8 + defFieldCount;
         add(antsTitle, gbc);
         
+        antsInstructions = new JLabel();
+        antsInstructions.setText("Seperate with a comma and a space");
+        antsInstructions.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
+        gbc.gridy = 9 + defFieldCount;
+        add(antsInstructions, gbc);
+        
         if (savedAnts == null) {
-            antsWord = new JTextField("Seperate with a comma and a space");
+            antsWord = new JTextField("");
         } else {
             antsWord = new JTextField(savedAnts);
         }
         antsWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
-        gbc.gridy = 8 + defFieldCount;
+        gbc.gridy = 10 + defFieldCount;
         add(antsWord, gbc);
     }
     
@@ -110,7 +126,7 @@ public class Window extends JPanel {
         gbc.gridy = 2;
         add(wordTitle, gbc);
         
-        addWord = new JTextField("New word");
+        addWord = new JTextField("");
         addWord.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridy = 3;
         add(addWord, gbc);
@@ -125,7 +141,7 @@ public class Window extends JPanel {
     
     private void showAddSubmit() {        
         submit = new JButton("Submit");
-        gbc.gridy = 9 + defFieldCount;
+        gbc.gridy = 11 + defFieldCount;
         //submit.addActionListener(this);
         add(submit, gbc);
     }
@@ -149,7 +165,7 @@ public class Window extends JPanel {
     
     private void addDefFeild() {
         defFieldCount++;
-        JTextField addDef = new JTextField("New definition");
+        JTextField addDef = new JTextField("");
         addDef.setFont(new Font(getFont().getName(), getFont().getStyle(), 15));
         gbc.gridx = 0;
         gbc.gridy = 4 + defFieldCount;
@@ -295,40 +311,48 @@ public class Window extends JPanel {
 
     private void deleteAddStuff() {
         remove(synsTitle);
+        remove(synsInstructions);
         savedSyns = synsWord.getText();
         remove(synsWord);
         remove(antsTitle);
+        remove(antsInstructions);
         savedAnts = antsWord.getText();
         remove(antsWord);
         remove(submit);
     }
     
-    public void makeWord() {        
+    public boolean makeWord() {        
         String word = addWord.getText().toLowerCase();
-        String[] partsOfSpeech = new String[POSs.size()];
-        String[] definitions = new String[defs.size()];
-        for (int i = 0; i < POSs.size(); i++) {
-            partsOfSpeech[i] = (String) POSs.get(i).getSelectedItem();
+        if (word != null && !word.equals("")) {
+            System.out.println("in make word if statement");
+            String[] partsOfSpeech = new String[POSs.size()];
+            String[] definitions = new String[defs.size()];
+            for (int i = 0; i < POSs.size(); i++) {
+                partsOfSpeech[i] = (String) POSs.get(i).getSelectedItem();
+            }
+            for (int i = 0; i < defs.size(); i++) {
+                definitions[i] = (String) defs.get(i).getText();
+            }
+            
+            String[] synonyms = null;
+            String[] antonym = null;
+            if (!synsWord.getText().equals("Seperate with a comma and a space")) {
+                synonyms = synsWord.getText().split(", ");
+            }
+            if (!antsWord.getText().equals("Seperate with a comma and a space")) {
+                antonym = antsWord.getText().split(", ");
+            }
+            if (synonyms == null) {
+                synonyms = new String[]{""};
+            }
+            if (antonym == null) {
+                antonym = new String[]{""};
+            }            
+            winWord = new Word(word, definitions, partsOfSpeech, synonyms, antonym);
+            return true;
+        } else {
+            return false;
         }
-        for (int i = 0; i < defs.size(); i++) {
-            definitions[i] = (String) defs.get(i).getText();
-        }
-        
-        String[] synonyms = null;
-        String[] antonym = null;
-        if (!synsWord.getText().equals("Seperate with a comma and a space")) {
-            synonyms = synsWord.getText().split(", ");
-        }
-        if (!antsWord.getText().equals("Seperate with a comma and a space")) {
-            antonym = antsWord.getText().split(", ");
-        }
-        if (synonyms == null) {
-            synonyms = new String[]{""};
-        }
-        if (antonym == null) {
-            antonym = new String[]{""};
-        }            
-        winWord = new Word(word, partsOfSpeech, definitions, synonyms, antonym);
     }
     
     public void plusButtonPressed() {

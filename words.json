@@ -344,17 +344,6 @@
     ]
   },
   {
-    "word": "bone",
-    "definitions": [
-      {
-        "definition": "noun",
-        "partOfSpeech": "any of the pieces of hard whitish tissue making up the skeleton in humans and other vertebrates"
-      }
-    ],
-    "synonyms": [],
-    "antonyms": []
-  },
-  {
     "word": "bridge",
     "definitions": [
       {
@@ -1728,6 +1717,21 @@
     ],
     "antonyms": [
       "levity"
+    ]
+  },
+  {
+    "word": "hi",
+    "definitions": [
+      {
+        "definition": "noun",
+        "partOfSpeech": ""
+      }
+    ],
+    "synonyms": [
+      ""
+    ],
+    "antonyms": [
+      ""
     ]
   },
   {

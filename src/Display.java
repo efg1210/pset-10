@@ -83,9 +83,6 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         toolbar = new Toolbar(toolbarWords);
         toolbar.initComponents();
         
-//        wordsList = toolbar.getWordsList();
-//        wordsList.addListSelectionListener(this);
-        
         displayAddButton = toolbar.getAddButton();
         displayDeleteButton = toolbar.getDeleteButton();
         JButton ascButton = toolbar.getAscButton();

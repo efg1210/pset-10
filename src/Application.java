@@ -55,6 +55,7 @@ public class Application implements ActionListener {
     }
     
     private void addWord(Word newWord) {
+        System.out.println("in addWord");
         Word[] newWordsList = Arrays.copyOf(getWords(), getWords().length + 1);
         newWordsList[newWordsList.length - 1] = newWord;
         setWords(newWordsList);
@@ -119,6 +120,7 @@ public class Application implements ActionListener {
                 plus.addActionListener(this);
                 break;
             case "Delete":
+                //System.out.println("delete");
                 if (Arrays.asList(Utils.parseWords(getWords())).contains(display.getSelection())) {
                     if (display.deleteMethod()) {
                         deleteWord();
@@ -129,8 +131,11 @@ public class Application implements ActionListener {
                 display.getWindow().plusButtonPressed();
                 break;
             case "Submit":
-                display.getWindow().makeWord();
-                addWord(display.getWindow().getWinWord());
+                System.out.println("submit");
+                if(display.getWindow().makeWord()) {
+                    System.out.println("make word returned true");
+                    addWord(display.getWindow().getWinWord());
+                }
                 break;
             default: System.out.println(clicked.getText());
         }
