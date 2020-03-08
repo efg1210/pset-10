@@ -45,7 +45,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         return selection;
     }
     
-    private Word[] getDisplayWords() {
+    public Word[] getDisplayWords() {
         return displayWords;
     }
     
@@ -70,6 +70,11 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         setExtendedState(JFrame.MAXIMIZED_BOTH); 
     }
     
+    public void resetWordsList() {
+        wordsList = toolbar.getWordsList();
+        wordsList.addListSelectionListener(this);
+    }
+    
     public void makeWindow() {
         window = new Window(selection, displayWords);
         winScrollPane = new JScrollPane(window);
@@ -92,8 +97,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         
         toolbar.getSearch().getDocument().addDocumentListener(this);
         
-        wordsList = toolbar.getWordsList();
-        wordsList.addListSelectionListener(this);
+        resetWordsList();
                 
         tbScrollPane = new JScrollPane(toolbar);
         tbScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -137,8 +141,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         toolbar.remove(toolbar.getWordsList());
         toolbar.makeWords();
         
-        wordsList = toolbar.getWordsList();
-        wordsList.addListSelectionListener(this);
+        resetWordsList();
         
         toolbar.revalidate();
     }
@@ -176,8 +179,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        wordsList = toolbar.getWordsList();
-        wordsList.addListSelectionListener(this);        
+        resetWordsList();        
         JButton clicked = (JButton) e.getSource();
         switch (clicked.getText()) {
             case "Asc":
@@ -190,10 +192,10 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
                 remove(tbScrollPane);
                 makeToolbar(displayWords);
                 break;
-            case "Add":
-                addMethod();
-            case "Delete":
-                //pop.show();
+//            case "Add":
+//                addMethod();
+//            case "Delete":
+//                //pop.show();
             default:
         }
     }

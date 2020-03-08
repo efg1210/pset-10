@@ -55,7 +55,6 @@ public class Application implements ActionListener {
     }
     
     private void addWord(Word newWord) {
-        System.out.println("in addWord");
         Word[] newWordsList = Arrays.copyOf(getWords(), getWords().length + 1);
         newWordsList[newWordsList.length - 1] = newWord;
         setWords(newWordsList);
@@ -94,6 +93,14 @@ public class Application implements ActionListener {
         display.makeWindow();
     }
     
+    private void resetCode() {
+        display.resetWordsList();
+        appAddButton = display.getAddButton();
+        appAddButton.addActionListener(this);
+        appDeleteButton = display.getDeleteButton();
+        appDeleteButton.addActionListener(this);
+    }
+    
     private void runDisplay() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -109,7 +116,6 @@ public class Application implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
         JButton clicked = (JButton) e.getSource();
         switch (clicked.getText()) {
             case "Add":
@@ -120,7 +126,6 @@ public class Application implements ActionListener {
                 plus.addActionListener(this);
                 break;
             case "Delete":
-                //System.out.println("delete");
                 if (Arrays.asList(Utils.parseWords(getWords())).contains(display.getSelection())) {
                     if (display.deleteMethod()) {
                         deleteWord();
@@ -131,13 +136,12 @@ public class Application implements ActionListener {
                 display.getWindow().plusButtonPressed();
                 break;
             case "Submit":
-                System.out.println("submit");
-                if(display.getWindow().makeWord()) {
-                    System.out.println("make word returned true");
+                if (display.getWindow().makeWord()) {
                     addWord(display.getWindow().getWinWord());
                 }
                 break;
-            default: System.out.println(clicked.getText());
+            default: System.err.println(clicked.getText());
         }
+        resetCode();
     }
 }
