@@ -319,7 +319,7 @@ public class Window extends JPanel {
     
     public boolean makeWord(Word[] words) {        
         String word = addWord.getText().toLowerCase();
-        if (word != null && !word.equals("") /*&& !Arrays.asList(Utils.parseWords(words)).contains(word)*/) {
+        if (word != null && !word.equals("") && !Arrays.asList(Utils.parseWords(words)).contains(word)) {
             String[] partsOfSpeech = new String[POSs.size()];
             String[] definitions = new String[defs.size()];
             for (int i = 0; i < POSs.size(); i++) {
