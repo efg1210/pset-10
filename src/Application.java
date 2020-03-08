@@ -17,6 +17,8 @@ public class Application implements ActionListener {
     private JButton appDeleteButton;
     private JButton submit;
     private JButton plus;
+    private JButton appAscButton;
+    private JButton appDescButton;
     
     public Application() {
         getWordsFile();
@@ -99,6 +101,10 @@ public class Application implements ActionListener {
         appAddButton.addActionListener(this);
         appDeleteButton = display.getDeleteButton();
         appDeleteButton.addActionListener(this);
+        appAscButton = display.getAscButton();
+        appAscButton.addActionListener(this);
+        appDescButton = display.getDescButton();
+        appDescButton.addActionListener(this);
     }
     
     private void runDisplay() {
@@ -118,6 +124,16 @@ public class Application implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton clicked = (JButton) e.getSource();
         switch (clicked.getText()) {
+            case "Asc":
+                display.setDisplayWords(Utils.sortWords(display.getDisplayWords()));
+                display.remove(display.getTBScrollPane());
+                display.makeToolbar(display.getDisplayWords());
+                break;
+            case "Desc":
+                display.setDisplayWords(Utils.sortWordsDesc(display.getDisplayWords()));
+                display.remove(display.getTBScrollPane());
+                display.makeToolbar(display.getDisplayWords());
+                break;
             case "Add":
                 display.addMethod();
                 submit = display.getWindow().getSubmitBtn();
@@ -138,9 +154,7 @@ public class Application implements ActionListener {
                 submit.addActionListener(this);
                 break;
             case "Submit":
-                System.out.println("in submit at all");
                 if (display.getWindow().makeWord()) {
-                    System.out.println("inside submit if statement");
                     addWord(display.getWindow().getWinWord());
                 }
                 break;

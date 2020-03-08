@@ -57,7 +57,6 @@ public class Toolbar extends JPanel {
         revalidate();
         
         setLayout(new GridBagLayout());
-        //GridBagConstraints gbc = new GridBagConstraints();
         
         addButton = new JButton("Add");
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -75,54 +74,6 @@ public class Toolbar extends JPanel {
         add(searchTitle, gbc);
         
         search = new JTextField("");
-//        search.getDocument().addDocumentListener(new DocumentListener() {
-//            public void changedUpdate(DocumentEvent e) {
-//                search();
-//            }
-//            public void removeUpdate(DocumentEvent e) {
-//                search();
-//            }
-//            public void insertUpdate(DocumentEvent e) {
-//                search();
-//            }
-//
-//            public void search() {
-//                String searchTerm = search.getText();
-//                ArrayList<Word> filteredWords = new ArrayList<Word>();
-//                ArrayList<Integer> sort = new ArrayList<Integer>();
-//                ArrayList<Integer> sorted = new ArrayList<Integer>();
-//                
-//                for (Word word: tbWords) {
-//                    if (word.getWord().contains(searchTerm)) {
-//                        filteredWords.add(word);
-//                        sort.add(word.getWord().indexOf(searchTerm));
-//                        sorted.add(word.getWord().indexOf(searchTerm));
-//                    }
-//                }
-//                Collections.sort(sorted);
-//                
-//                ArrayList<Word> sortedWords = new ArrayList<Word>();
-//                while(filteredWords.size() > 0) {
-//                    for (int i = 0; i < sort.size(); i++) {
-//                        if (sorted.get(0) == sort.get(i)) {
-//                            sortedWords.add(filteredWords.get(i));
-//                            sorted.remove(0);
-//                            sort.remove(i);
-//                            filteredWords.remove(i);
-//                        }
-//                    }
-//                }
-//                Word[] outputWords = new Word[sortedWords.size()];
-//                for (int i = 0; i < outputWords.length; i++) {
-//                    outputWords[i] = sortedWords.get(i);
-//                }
-//                setTBWords(outputWords);
-//                remove(wordsList);
-//                makeWords();
-//                revalidate();
-//                //initComponents();
-//            }
-//        });
         
         gbc.gridx = 0;
         gbc.gridy = 2;

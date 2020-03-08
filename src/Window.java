@@ -142,7 +142,6 @@ public class Window extends JPanel {
     private void showAddSubmit() {        
         submit = new JButton("Submit");
         gbc.gridy = 11 + defFieldCount;
-        //submit.addActionListener(this);
         add(submit, gbc);
     }
     
@@ -157,7 +156,6 @@ public class Window extends JPanel {
         plusButton = new JButton("+");
         gbc.gridx = 1;
         gbc.gridy = 4;
-        //addDefBtn.addActionListener(this);
         add(plusButton, gbc);
         
         addDefFeild();
@@ -175,8 +173,6 @@ public class Window extends JPanel {
         defFieldCount++;
         String[] partsOfSpeech = {"noun", "verb", "adjective", "adverb", "pronoun", "preposition", "conjunction", "interjection", "determiner"};
         JComboBox addPOS = new JComboBox(partsOfSpeech);
-        //possibly not needed?
-        //addPOS.addItemListener(this);
         gbc.gridy = 4 + defFieldCount;
         add(addPOS, gbc);
         POSs.add(addPOS);
@@ -324,7 +320,6 @@ public class Window extends JPanel {
     public boolean makeWord() {        
         String word = addWord.getText().toLowerCase();
         if (word != null && !word.equals("")) {
-            System.out.println("in make word if statement");
             String[] partsOfSpeech = new String[POSs.size()];
             String[] definitions = new String[defs.size()];
             for (int i = 0; i < POSs.size(); i++) {

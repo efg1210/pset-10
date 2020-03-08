@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -10,7 +8,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class Display extends JFrame implements ListSelectionListener, ActionListener, DocumentListener {
+public class Display extends JFrame implements ListSelectionListener, DocumentListener {
     private static final long serialVersionUID = 1L;
     
     private Word[] displayWords;
@@ -23,6 +21,8 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     private JList wordsList;
     private JButton displayAddButton;
     private JButton displayDeleteButton;
+    private JButton displayAscButton;
+    private JButton displayDescButton;
     
     public Display(Word[] words) {
         this.displayWords = words;
@@ -35,6 +35,14 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     
     public JButton getDeleteButton() {
         return displayDeleteButton;
+    }
+    
+    public JButton getAscButton() {
+        return displayAscButton;
+    }
+    
+    public JButton getDescButton() {
+        return displayDescButton;
     }
     
     public Window getWindow() {
@@ -90,11 +98,9 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         
         displayAddButton = toolbar.getAddButton();
         displayDeleteButton = toolbar.getDeleteButton();
-        JButton ascButton = toolbar.getAscButton();
-        JButton descButton = toolbar.getDescButton();
-        ascButton.addActionListener(this);
-        descButton.addActionListener(this);
-        
+        displayAscButton = toolbar.getAscButton();
+        displayDescButton = toolbar.getDescButton();
+
         toolbar.getSearch().getDocument().addDocumentListener(this);
         
         resetWordsList();
@@ -176,45 +182,19 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     public JScrollPane getWinScrollPane() {
         return winScrollPane;
     }
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        resetWordsList();        
-        JButton clicked = (JButton) e.getSource();
-        switch (clicked.getText()) {
-            case "Asc":
-                setDisplayWords(Utils.sortWords(displayWords));
-                remove(tbScrollPane);
-                makeToolbar(displayWords);
-                break;
-            case "Desc":
-                setDisplayWords(Utils.sortWordsDesc(displayWords));
-                remove(tbScrollPane);
-                makeToolbar(displayWords);
-                break;
-//            case "Add":
-//                addMethod();
-//            case "Delete":
-//                //pop.show();
-            default:
-        }
-    }
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        // TODO Auto-generated method stub
         search();
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        // TODO Auto-generated method stub
         search();
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        // TODO Auto-generated method stub
         search();
     }
 }
