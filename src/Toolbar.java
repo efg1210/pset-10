@@ -43,6 +43,10 @@ public class Toolbar extends JPanel {
         return descButton;
     }
     
+    public void setTBWords(Word[] tbWords) {
+        this.tbWords = tbWords;
+    }
+    
     public void initComponents() {
         removeAll();
         revalidate();
@@ -103,6 +107,15 @@ public class Toolbar extends JPanel {
                         }
                     }
                 }
+                Word[] outputWords = new Word[sortedWords.size()];
+                for (int i = 0; i < outputWords.length; i++) {
+                    outputWords[i] = sortedWords.get(i);
+                }
+                setTBWords(outputWords);
+                remove(wordsList);
+                makeWords(gbc);
+                revalidate();
+                //initComponents();
             }
         });
         
