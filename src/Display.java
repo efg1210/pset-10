@@ -17,7 +17,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
     private JScrollPane tbScrollPane;
     private JScrollPane winScrollPane;
     private String selection = null;
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private Toolbar toolbar;
     private Window window;
     private JList wordsList;
@@ -37,20 +37,24 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         return displayDeleteButton;
     }
     
-    public void setDisplayWords(Word[] words) {
-        this.displayWords = words;
-    }
-    
     public Window getWindow() {
         return window;
     }
     
-    public void setSelection(String newSelection) {
-        selection = newSelection;
-    }
-    
     public String getSelection() {
         return selection;
+    }
+    
+    private Word[] getDisplayWords() {
+        return displayWords;
+    }
+    
+    public void setDisplayWords(Word[] words) {
+        this.displayWords = words;
+    }
+    
+    public void setSelection(String newSelection) {
+        selection = newSelection;
     }
     
     private void initComponents() {
@@ -108,7 +112,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         ArrayList<Integer> sort = new ArrayList<Integer>();
         ArrayList<Integer> sorted = new ArrayList<Integer>();
         
-        for (Word word: toolbar.getTBWords()) {
+        for (Word word: getDisplayWords()) {
             if (word.getWord().contains(searchTerm)) {
                 filteredWords.add(word);
                 sort.add(word.getWord().indexOf(searchTerm));
@@ -141,7 +145,7 @@ public class Display extends JFrame implements ListSelectionListener, ActionList
         
         toolbar.revalidate();
     }
-    
+
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             setSelection(((JList) e.getSource()).getSelectedValue().toString());
